@@ -10,6 +10,13 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     }
 }
 
+# Winget
+$API_URL = "https://api.github.com/repos/microsoft/winget-cli/releases/latest"
+$DOWNLOAD_URL = $(Invoke-RestMethod $API_URL).assets.browser_download_url | Where-Object {$_.EndsWith(".msixbundle")}
+Invoke-WebRequest -URI $DOWNLOAD_URL -OutFile winget.msixbundle -UseBasicParsing
+Add-AppxPackage winget.msixbundle
+Remove-Item winget.msixbundle
+
 #todo review components, iterate through all system components
 . $componentsDir/setup-windows.ps1
 . $componentsDir/schedule-tasks.ps1
