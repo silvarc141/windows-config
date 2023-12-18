@@ -46,7 +46,7 @@ function Download-File {
 $tempDir = "$env:TEMP\$repo"
 New-Item -ItemType Directory -Path $tempDir -Force
 $zip = "$tempDir\$repo.zip"
-$installDir = Join-Path "$tempDir\$repo-$branch\$os"
+$installDir = "$tempDir\$repo-$branch\$os"
 
 Write-Host "Downloading installation files..." -ForegroundColor "Yellow"
 Download-File "https://github.com/$account/$repo/archive/$branch.zip" $zip
