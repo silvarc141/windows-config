@@ -10,6 +10,7 @@ scoop bucket add extras
 scoop bucket add nerd-fonts
 scoop bucket add sysinternals
 # scoop bucket add DEV-tools https://github.com/anderlli0053/DEV-tools.git
+scoop update
 
 Write-Host "Installing installation dependencies..." -ForegroundColor "Yellow"
 scoop install main/aria2
