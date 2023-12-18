@@ -1,4 +1,4 @@
-$dotfilesRepo = https://github.com/silvarc141/dotfiles.git
+$dotfilesRepo = "https://github.com/silvarc141/dotfiles.git"
 $packagesList = "$PSScriptRoot\packages-list.json"
 $componentsDir = "$PSScriptRoot\user-components"
 
