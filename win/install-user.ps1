@@ -5,7 +5,11 @@ $componentsDir = "$PSScriptRoot\user-components"
 #todo iterate through all user components
 
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-"$(Invoke-RestMethod get.scoop.sh)" | Invoke-Expression
+
+if(![Boolean](Get-Command scoop -ErrorAction SilentlyContinue)) {
+    "$(Invoke-RestMethod get.scoop.sh)" | Invoke-Expression
+}
+
 scoop bucket add extras
 scoop bucket add nerd-fonts
 scoop bucket add sysinternals
