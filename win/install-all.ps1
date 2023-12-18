@@ -1,5 +1,5 @@
 Write-Host "Installing system-wide components..." -ForegroundColor "Yellow"
-& $PSScriptRoot\install-system.ps1 | Out-Default
+Start-Process -FilePath $PSScriptRoot\install-system.ps1 -Wait
 
 Write-Host "Installing user-specific components..." -ForegroundColor "Yellow"
-& $PSScriptRoot\install-user.ps1 | Out-Default
+Start-Process -FilePath $PSScriptRoot\install-user.ps1 -Wait
