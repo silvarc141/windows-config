@@ -61,4 +61,4 @@ Write-Host "Removing installation files..." -ForegroundColor "Yellow"
 Remove-Item -Path $tempDir -Recurse -Force
 
 #Write-Host "Restarting..." -ForegroundColor "Yellow"
-#shutdown /r /t 0
+#shutdown /r /t 0 
