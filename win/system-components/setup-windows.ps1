@@ -4,7 +4,7 @@
 Write-Host "Configuring System..." -ForegroundColor "Yellow"
 
 # Set Computer Name
-(Get-WmiObject Win32_ComputerSystem).Rename("SMWIN") | Out-Null
+(Get-WmiObject Win32_ComputerSystem).Rename("sm-win") | Out-Null
 
 # Set DisplayName for my account. Use only if you are not using a Microsoft Account
 # $myIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent()
@@ -235,8 +235,10 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advan
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" "ColorPrevalence" 1
 
 # Taskbar: Remove pinned
-$taskbarPath = [System.IO.Path]::Combine([Environment]::GetFolderPath('ApplicationData'), 'Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar')
-Remove-Item -Path "$taskbarPath\*" -Force
+Remove-Item -Path "$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\*" -Force -Recurse -ErrorAction SilentlyContinue
+Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Force -Recurse -ErrorAction SilentlyContinue
+Stop-Process -ProcessName explorer -Force
+Start-Process explorer
 
 # Titlebar: Disable theme colors on titlebar: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\DWM" "ColorPrevalence" 1
@@ -423,8 +425,12 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.Z
 Get-AppxPackage "Microsoft.ZuneVideo" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.ZuneVideo" | Remove-AppxProvisionedPackage -Online -AllUsers
 
+# Uninstall OneDrive
+Get-AppxPackage "Microsoft.OneDrive" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.OneDrive" | Remove-AppxProvisionedPackage -Online -AllUsers
+
 # Uninstall Windows Media Player
-Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
+#Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
 
 # Prevent "Suggested Applications" from returning
 #Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1 -Force
