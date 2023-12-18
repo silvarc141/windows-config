@@ -54,7 +54,7 @@ if(Test-Path $installDir) { Remove-Item -Path $installDir -Recurse -Force }
 Unzip-File $zip $tempDir
 
 Push-Location $installDir
-Start-Process -FilePath .\install-all.ps1 -Wait
+Start-Process powershell.exe -Wait -ArgumentList $PSScriptRoot\install-all.ps1
 Pop-Location
 
 Write-Host "Removing installation files..." -ForegroundColor "Yellow"
