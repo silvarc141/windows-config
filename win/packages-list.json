@@ -1,0 +1,116 @@
+[
+    {
+        "category": "core",
+        "packages": [
+            { "value": "AgileBits.1Password", "manager": "winget" },
+            { "value": "main/1password-cli", "manager": "scoop" },
+            { "value": "main/rclone", "manager": "scoop" },
+            { "value": "extras/glazewm", "manager": "scoop" }
+        ]
+    },
+    {
+        "category": "fonts",
+        "packages": [
+            { "value": "nerd-fonts/codenewroman-nf", "manager": "scoop" },
+            { "value": "nerd-fonts/cascadiaCode-nf-mono", "manager": "scoop" },
+            { "value": "nerd-fonts/JetbrainsMono-nf-mono", "manager": "scoop" }
+        ]
+    },
+    {
+        "category": "basic",
+        "packages": [
+            { "value": "main/7zip", "manager": "scoop" },
+            { "value": "extras/alacritty", "manager": "scoop" },
+            { "value": "extras/firefox", "manager": "scoop" },
+            { "value": "extras/vscodium", "manager": "scoop" },
+            { "value": "extras/vlc", "manager": "scoop" },
+            { "value": "extras/f3d", "manager": "scoop" },
+            { "value": "extras/honeyview", "manager": "scoop" },
+            { "value": "extras/libreoffice", "manager": "scoop" },
+            { "value": "extras/sharex", "manager": "scoop" }
+        ]
+    },
+    {
+        "category": "communication",
+        "packages": [
+            { "value": "Discord.Discord", "manager": "winget" },
+            { "value": "Vendicated.Vencord", "manager": "winget" },
+            { "value": "Readdle.Spark", "manager": "winget" },
+            { "value": "NovaTechnology.Beeper", "manager": "winget" },
+            { "value": "Microsoft.Teams", "manager": "winget" }
+        ]
+    },
+    {
+        "category": "workflow",
+        "packages": [
+            { "value": "extras/autohotkey", "manager": "scoop" },
+            { "value": "extras/glazewm", "manager": "scoop" },
+            { "value": "extras/everything", "manager": "scoop" },
+            { "value": "extras/fluent-search", "manager": "scoop" },
+            { "value": "extras/obsidian", "manager": "scoop" }
+        ]
+    },
+    {
+        "category": "dev",
+        "packages": [
+            { "value": "Unity.UnityHub", "manager": "winget" },
+            { "value": "main/rustup", "manager": "scoop" },
+            { "value": "main/neovim", "manager": "scoop" },
+            { "value": "main/vim", "manager": "scoop" },
+            { "value": "main/vimtutor", "manager": "scoop" },
+            { "value": "extras/rider", "manager": "scoop" },
+            { "value": "extras/sourcetree", "manager": "scoop" }
+        ]
+    },
+    {
+        "category": "media",
+        "packages": [
+            { "value": "main/ffmpeg", "manager": "scoop" },
+            { "value": "main/yt-dlp", "manager": "scoop" },
+            { "value": "extras/reaper", "manager": "scoop" },
+            { "value": "extras/handbrake", "manager": "scoop" },
+            { "value": "extras/losslesscut", "manager": "scoop" },
+            { "value": "extras/gimp", "manager": "scoop" },
+            { "value": "extras/krita", "manager": "scoop" },
+            { "value": "extras/blender", "manager": "scoop" },
+            { "value": "extras/inkscape", "manager": "scoop" },
+            { "value": "extras/obs-studio", "manager": "scoop" }
+        ]
+    },
+    {
+        "category": "games",
+        "packages": [
+            { "value": "Valve.Steam", "manager": "winget" },
+            { "value": "EpicGames.EpicGamesLauncher", "manager": "winget" },
+            { "value": "Battle.net", "manager": "winget" }
+        ]
+    },
+    {
+        "category": "themeing",
+        "packages": [
+            { "value": "main/neofetch", "manager": "scoop" },
+            { "value": "main/starship", "manager": "scoop" },
+            { "value": "extras/micaforeveryone", "manager": "scoop" },
+            { "value": "extras/secureuxtheme", "manager": "scoop" },
+            { "value": "extras/7tsp", "manager": "scoop" }
+        ]
+    },
+    {
+        "category": "other",
+        "packages": [
+            { "value": "Oracle.VirtualBox", "manager": "winget" },
+            { "value": "extras/powertoys", "manager": "scoop" },
+            { "value": "extras/etcher", "manager": "scoop" },
+            { "value": "extras/ventoy", "manager": "scoop" },
+            { "value": "extras/droidcam", "manager": "scoop" }
+        ]
+    },
+    {
+        "category": "hardware specific",
+        "packages": [
+            { "value": "Nvidia.GeForceExperience", "manager": "winget" },
+            { "value": "9WZDNCRFHWLH", "manager": "winget" },
+            { "value": "extras/logitech-omm", "manager": "scoop" }
+        ]
+    }
+]

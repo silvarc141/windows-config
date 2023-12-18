@@ -7,7 +7,7 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     }
 }
 
-# ask for credentials
+# Ask for credentials
 $Message = "Enter the username and password that will run the task"
 $Credential = Get-Credential -Message $Message -UserName "$env:userdomain\$env:username"
 

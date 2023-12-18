@@ -5,4 +5,4 @@ Install-Module PSWindowsUpdate -Scope CurrentUser -Force
 
 Write-Host "Updating Help..." -ForegroundColor "Yellow"
 Update-Help -Force
-Refresh-Environment
+#Refresh-Environment

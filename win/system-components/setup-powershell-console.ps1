@@ -86,5 +86,5 @@ Set-PSReadlineOption -Colors @{
 }
 
 # Remove property overrides from PowerShell and Bash shortcuts
-Reset-AllPowerShellShortcuts
-Reset-AllBashShortcuts
+#Reset-AllPowerShellShortcuts
+#Reset-AllBashShortcuts

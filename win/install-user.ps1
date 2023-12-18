@@ -1,3 +1,9 @@
+$dotfilesRepo = https://github.com/silvarc141/dotfiles.git
+$packagesList = "$env:PSScriptRoot\packages-list.json"
+$componentsDir = "$env:PSScriptRoot\user-components"
+
+#todo iterate through all user components
+
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 "$(Invoke-RestMethod get.scoop.sh)" | Invoke-Expression
 scoop bucket add extras
@@ -11,4 +17,17 @@ scoop install main/git
 scoop install main/chezmoi
 
 Write-Host "Installing dotfiles..." -ForegroundColor "Yellow"
-chezmoi init --apply https://github.com/silvarc141/dotfiles.git
+chezmoi init --apply $dotfilesRepo
+
+$packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
+
+foreach ($category in $packagesListObject) {
+    foreach ($package in $category.packages) {
+        if ($package.manager -eq 'scoop') {
+            scoop install $package.value
+        }
+    }
+}
+
+Write-Host "Reapplying dotfiles after installation" -ForegroundColor "Yellow"
+chezmoi apply
