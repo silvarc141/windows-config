@@ -1,6 +1,6 @@
 $dotfilesRepo = https://github.com/silvarc141/dotfiles.git
-$packagesList = "$env:PSScriptRoot\packages-list.json"
-$componentsDir = "$env:PSScriptRoot\user-components"
+$packagesList = "$PSScriptRoot\packages-list.json"
+$componentsDir = "$PSScriptRoot\user-components"
 
 #todo iterate through all user components
 

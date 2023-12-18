@@ -50,7 +50,7 @@ $installDir = "$tempDir\$repo-$branch\$os"
 
 Write-Host "Downloading installation files..." -ForegroundColor "Yellow"
 Download-File "https://github.com/$account/$repo/archive/$branch.zip" $zip
-Remove-Item -Path $installDir -Recurse -Force
+if(Test-Path $installDir) { Remove-Item -Path $installDir -Recurse -Force }
 Unzip-File $zip $tempDir
 
 Push-Location $installDir

@@ -1,5 +1,5 @@
-$packagesList = "$env:PSScriptRoot\packages-list.json"
-$componentsDir = "$env:PSScriptRoot\system-components"
+$packagesList = "$PSScriptRoot\packages-list.json"
+$componentsDir = "$PSScriptRoot\system-components"
 
 # Self-elevate the script if required
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
