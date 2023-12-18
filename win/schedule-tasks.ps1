@@ -42,24 +42,26 @@ function Register-ScheduledPSScriptTask {
     Write-Output "Added task named: $TaskName"
 }
 
+$scheduledScriptsPath = "$env:USERPROFILE\.config\scripts-scheduled"
+
 $paramsStartup = @{
     TaskName   = "CustomStartup"
     Trigger    = New-ScheduledTaskTrigger -AtLogOn
-    ScriptPath = "$env:USERPROFILE\scripts\scheduled\startup.ps1"
+    ScriptPath = "$scheduledScriptsPath\startup.ps1"
     RunLevel   = 'Limited'
 }
 
 $paramsStartupElevated = @{
     TaskName   = "CustomStartupElevated"
     Trigger    = New-ScheduledTaskTrigger -AtLogOn
-    ScriptPath = "$env:USERPROFILE\scripts\scheduled\startup-elevated.ps1"
+    ScriptPath = "$scheduledScriptsPath\startup-elevated.ps1"
     RunLevel   = 'Highest'
 }
 
 $paramsPolling = @{
     TaskName   = "CustomPolling"
     Trigger    = New-ScheduledTaskTrigger -Once -At (Get-Date).Date -RepetitionInterval (New-TimeSpan -Minutes 5)
-    ScriptPath = "$env:USERPROFILE\scripts\scheduled\polling.ps1"
+    ScriptPath = "$scheduledScriptsPath\polling.ps1"
     Credential = $Credential
     RunLevel   = 'Highest'
 }
