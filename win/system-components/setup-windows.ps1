@@ -20,7 +20,7 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsy
 
 # Install media feature pack
 #TODO check if already done
-Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online -LogLevel | Out-Null
+Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online | Out-Null
 
 
 
