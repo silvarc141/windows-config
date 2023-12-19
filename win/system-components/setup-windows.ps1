@@ -251,9 +251,6 @@ $path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
 $value = (Get-ItemProperty -Path $path).Settings
 $value[8] = $autoHide;
 Set-ItemProperty -Path $path -Name Settings -Value $value
-Remove-Variable $path
-Remove-Variable $value
-Remove-Variable $autoHide
 
 # Taskbar: Remove pinned
 Remove-Item -Path "$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\*" -Force -Recurse -ErrorAction SilentlyContinue
@@ -456,8 +453,8 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.O
 Get-AppxPackage "MicrosoftTeams" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "MicrosoftTeams" | Remove-AppxProvisionedPackage -Online -AllUsers
 
-# Uninstall Windows Media Player
-Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
+# Uninstall Windows Media Player //throws errors, outdated?
+#Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
 
 # Prevent "Suggested Applications" from returning
 #Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1 -Force
@@ -530,5 +527,3 @@ Set-MpPreference -SubmitSamplesConsent 2
 ### Finalizing
 # Stop explorer to immediately apply some changes. Windows will restart it on its own.
 Stop-Process -ProcessName explorer -Force
-
-Write-Output "Done. Note that some of these changes require a logout/restart to take effect."
