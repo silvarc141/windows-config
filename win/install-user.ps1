@@ -1,8 +1,5 @@
 $dotfilesRepo = 'https://github.com/silvarc141/dotfiles.git'
 $packagesList = "$PSScriptRoot\packages-list.json"
-$componentsDir = "$PSScriptRoot\user-components"
-
-#todo iterate through all user components
 
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
