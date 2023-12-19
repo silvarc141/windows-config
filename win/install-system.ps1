@@ -13,7 +13,7 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 . $componentsDir/schedule-tasks.ps1
 . $componentsDir/setup-windows.ps1
 
-# Update winget
+Write-Host "Updating Winget..." -ForegroundColor "Yellow"
 $results = (winget --version) | Select-String -Pattern 'v(\d)\.(\d).*'
 $major = $results.Matches.Groups[1].Captures.Value -le 1
 $minor = $results.Matches.Groups[2].Captures.Value -lt 6
@@ -29,6 +29,7 @@ else {
     winget upgrade winget
 }
 
+Write-Host "Installing packages..." -ForegroundColor "Yellow"
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 
 #todo support custom commands/parameters in json
@@ -40,7 +41,7 @@ foreach ($category in $packagesListObject) {
     }
 }
 
-# Remove local machine startup apps
+Write-Host "Removing local machine startup apps..." -ForegroundColor "Yellow"
 $32bit = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
 $32bitRunOnce = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce"
 $64bit = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run"

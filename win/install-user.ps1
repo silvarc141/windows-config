@@ -1,8 +1,7 @@
 $dotfilesRepo = 'https://github.com/silvarc141/dotfiles.git'
 $packagesList = "$PSScriptRoot\packages-list.json"
 
-# Install and configure scoop
-Write-Host "Setting up Scoop" -ForegroundColor "Yellow"
+Write-Host "Setting up Scoop..." -ForegroundColor "Yellow"
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 if(![Boolean](Get-Command scoop -ErrorAction SilentlyContinue)) {
@@ -15,19 +14,17 @@ scoop bucket add sysinternals
 scoop bucket add DEV-tools https://github.com/anderlli0053/DEV-tools.git
 scoop update
 
-# Install installation dependencies
 Write-Host "Installing installation dependencies..." -ForegroundColor "Yellow"
 scoop install main/aria2
 scoop install main/git
 scoop install main/chezmoi
 
-# Install dotfiles
 Write-Host "Installing dotfiles..." -ForegroundColor "Yellow"
 chezmoi init $dotfilesRepo --force --keep-going
 chezmoi git pull
 chezmoi apply --force --keep-going
 
-# Install packages
+Write-Host "Installing packages..." -ForegroundColor "Yellow"
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 
 foreach ($category in $packagesListObject) {
@@ -38,11 +35,10 @@ foreach ($category in $packagesListObject) {
     }
 }
 
-# Reapply dotfiles after installation
-Write-Host "Reapplying dotfiles after installation" -ForegroundColor "Yellow"
+Write-Host "Reapplying dotfiles after installation..." -ForegroundColor "Yellow"
 chezmoi apply --force --keep-going
 
-# Remove user startup apps
+Write-Host "Removing user startup apps..." -ForegroundColor "Yellow"
 ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", 
 "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce") |
 ForEach-Object { @{Path = $_; Item = Get-Item -Path $_} } |
