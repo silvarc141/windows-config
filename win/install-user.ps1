@@ -20,6 +20,7 @@ scoop install main/chezmoi
 
 Write-Host "Installing dotfiles..." -ForegroundColor "Yellow"
 chezmoi init $dotfilesRepo --force --keep-going
+chezmoi git pull
 chezmoi apply --force --keep-going
 
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json

@@ -1,6 +1,3 @@
-###############################################################################
-### Security and Identity                                                     #
-###############################################################################
 Write-Host "Configuring System..." -ForegroundColor "Yellow"
 
 # Set Computer Name
@@ -16,15 +13,17 @@ Write-Host "Configuring System..." -ForegroundColor "Yellow"
 
 # Enable Developer Mode: Enable: 1, Disable: 0
 #Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
-# Bash on Windows
+
+# Install WSL
+#TODO check if already done
 Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
 
 # Install media feature pack
-Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online
+#TODO check if already done
+Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online -LogLevel | Out-Null
 
-###############################################################################
-### Privacy                                                                   #
-###############################################################################
+
+
 Write-Host "Configuring Privacy..." -ForegroundColor "Yellow"
 
 # General: Don't let apps use advertising ID for experiences across apps: Allow: 1, Disallow: 0
@@ -184,9 +183,8 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" "NumberOfSIUFInPeriod" 0
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" "AllowTelemetry" 1
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" "MaxTelemetryAllowed" 1
 
-###############################################################################
-### Devices, Power, and Startup                                               #
-###############################################################################
+
+
 Write-Host "Configuring Devices, Power, and Startup..." -ForegroundColor "Yellow"
 
 # Sound: Disable Startup Sound: Enable: 0, Disable: 1
@@ -206,9 +204,8 @@ Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory 
 # Network: Disable WiFi Sense: Enable: 1, Disable: 0
 #Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" "AutoConnectAllowedOEM" 0
 
-###############################################################################
-### Explorer, Taskbar, and System Tray                                        #
-###############################################################################
+
+
 Write-Host "Configuring Explorer, Taskbar, and System Tray..." -ForegroundColor "Yellow"
 
 # Prerequisite: Ensure necessary registry paths
@@ -256,15 +253,18 @@ Set-ItemProperty -Path $path -Name Settings -Value $value
 Remove-Item -Path "$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\*" -Force -Recurse -ErrorAction SilentlyContinue
 Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Force -Recurse -ErrorAction SilentlyContinue
 
+## Enable Custom Background on the Login / Lock Screen
+## File Size Limit: 256Kb
+# Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\Personalization" "LockScreenImage" "C:\someDirectory\someImage.jpg"
+
 # Titlebar: Disable theme colors on titlebar: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\DWM" "ColorPrevalence" 1
 
 # Recycle Bin: Disable Delete Confirmation Dialog: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "ConfirmFileDelete" 0
 
-###############################################################################
-### Default Windows Applications                                              #
-###############################################################################
+
+
 Write-Host "Configuring Default Windows Applications..." -ForegroundColor "Yellow"
 
 # Uninstall 3D Builder
@@ -462,18 +462,7 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "MicrosoftTe
 #Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableConsumerAccountStateContent" 1 -Force
 
 
-###############################################################################
-### Lock Screen                                                               #
-###############################################################################
 
-## Enable Custom Background on the Login / Lock Screen
-## Background file: C:\someDirectory\someImage.jpg
-## File Size Limit: 256Kb
-# Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\Personalization" "LockScreenImage" "C:\someDirectory\someImage.jpg"
-
-###############################################################################
-### Accessibility and Ease of Use                                             #
-###############################################################################
 Write-Host "Configuring Accessibility..." -ForegroundColor "Yellow"
 
 # Turn Off Windows Narrator Hotkey: Enable: 1, Disable: 0
@@ -494,9 +483,8 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advan
 # Disable auto-correct: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\TabletTip\1.7" "EnableAutocorrection" 0
 
-###############################################################################
-### Windows Update & Application Updates                                      #
-###############################################################################
+
+
 Write-Host "Configuring Windows Update..." -ForegroundColor "Yellow"
 
 # Disable automatic reboot after install: Enable: 1, Disable: 0
@@ -513,9 +501,8 @@ $MU = New-Object -ComObject Microsoft.Update.ServiceManager -Strict
 $MU.AddService2("7971f918-a847-4430-9279-4a52d1efe18d", 7, "") | Out-Null
 Remove-Variable MU
 
-###############################################################################
-### Windows Defender                                                          #
-###############################################################################
+
+
 Write-Host "Configuring Windows Defender..." -ForegroundColor "Yellow"
 
 # Disable Cloud-Based Protection: Enabled Advanced: 2, Enabled Basic: 1, Disabled: 0
