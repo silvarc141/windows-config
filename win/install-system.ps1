@@ -10,7 +10,7 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     }
 }
 
-#. $componentsDir/schedule-tasks.ps1
+. $componentsDir/schedule-tasks.ps1
 . $componentsDir/setup-windows.ps1
 
 # Update winget
@@ -40,7 +40,13 @@ foreach ($category in $packagesListObject) {
     }
 }
 
-. $componentsDir/remove-startup-apps.ps1
+# Remove local machine startup apps
+$32bit = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+$32bitRunOnce = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce"
+$64bit = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Run"
+$64bitRunOnce = "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\RunOnce"
 
-#Write-Host -NoNewLine 'Press any key to continue...';
-#$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+$32bit, $32bitRunOnce, $64bit, $64bitRunOnce |
+ForEach-Object { @{Path = $_; Item = Get-Item -Path $_} } |
+Where-Object { $_.Item.ValueCount -ne 0 } |
+ForEach-Object { Remove-ItemProperty -Path $_.Path -Name $_.Item.Property }
