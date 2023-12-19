@@ -35,7 +35,7 @@ foreach ($category in $packagesListObject) {
 }
 
 Write-Host "Reapplying dotfiles after installation..." -ForegroundColor "Yellow"
-chezmoi apply --force
+chezmoi update
 
 Write-Host "Removing user startup apps..." -ForegroundColor "Yellow"
 ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", 
