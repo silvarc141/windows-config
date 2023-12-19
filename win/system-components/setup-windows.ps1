@@ -19,6 +19,9 @@ Write-Host "Configuring System..." -ForegroundColor "Yellow"
 # Bash on Windows
 Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
 
+# Install media feature pack
+Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online
+
 ###############################################################################
 ### Privacy                                                                   #
 ###############################################################################
@@ -216,6 +219,10 @@ if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search")) { N
 # Desktop: Hide desktop icons: Show: 0, Hide: 1 
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "HideIcons" 1
 
+# Light mode: 1, Dark mode: 0
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" "SystemUsesLightTheme" 0
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" "AppsUseLightTheme" 0
+
 # Explorer: Show hidden files by default: Show Files: 1, Hide Files: 2
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Hidden" 2
 
@@ -237,10 +244,20 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advan
 # Taskbar: Show colors on Taskbar, Start, and SysTray: Disabled: 0, Taskbar, Start, & SysTray: 1, Taskbar Only: 2
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" "ColorPrevalence" 1
 
+# Taskbar: Auto hide taskbar: Enable: 3, Disable: 2
+# Needs explorer restart to apply
+$autoHide = 3
+$path = 'HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'
+$value = (Get-ItemProperty -Path $path).Settings
+$value[8] = $autoHide;
+Set-ItemProperty -Path $path -Name Settings -Value $value
+Remove-Variable $path
+Remove-Variable $value
+Remove-Variable $autoHide
+
 # Taskbar: Remove pinned
 Remove-Item -Path "$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\*" -Force -Recurse -ErrorAction SilentlyContinue
 Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Force -Recurse -ErrorAction SilentlyContinue
-Stop-Process -ProcessName explorer -Force
 
 # Titlebar: Disable theme colors on titlebar: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\DWM" "ColorPrevalence" 1
@@ -427,12 +444,20 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.Z
 Get-AppxPackage "Microsoft.ZuneVideo" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.ZuneVideo" | Remove-AppxProvisionedPackage -Online -AllUsers
 
+# Uninstall Microsoft TODO
+Get-AppxPackage "Microsoft.Todos" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.Todos" | Remove-AppxProvisionedPackage -Online -AllUsers
+
 # Uninstall OneDrive
 Get-AppxPackage "Microsoft.OneDrive" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.OneDrive" | Remove-AppxProvisionedPackage -Online -AllUsers
 
+# Uninstall Microsoft Teams (non work/school)
+Get-AppxPackage "MicrosoftTeams" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "MicrosoftTeams" | Remove-AppxProvisionedPackage -Online -AllUsers
+
 # Uninstall Windows Media Player
-#Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
+Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
 
 # Prevent "Suggested Applications" from returning
 #Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1 -Force
@@ -501,5 +526,9 @@ Set-MpPreference -MAPSReporting 0
 
 # Disable automatic sample submission: Prompt: 0, Auto Send Safe: 1, Never: 2, Auto Send All: 3
 Set-MpPreference -SubmitSamplesConsent 2
+
+### Finalizing
+# Stop explorer to immediately apply some changes. Windows will restart it on its own.
+Stop-Process -ProcessName explorer -Force
 
 Write-Output "Done. Note that some of these changes require a logout/restart to take effect."

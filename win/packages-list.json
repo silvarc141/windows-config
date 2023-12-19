@@ -9,6 +9,12 @@
         ]
     },
     {
+        "category": "dependencies",
+        "packages": [
+            { "value": "Microsoft.DotNet.SDK.3_1", "manager": "winget" }
+        ]
+    },
+    {
         "category": "fonts",
         "packages": [
             { "value": "nerd-fonts/codenewroman-nf", "manager": "scoop" },
