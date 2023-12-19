@@ -503,40 +503,4 @@ Set-MpPreference -MAPSReporting 0
 # Disable automatic sample submission: Prompt: 0, Auto Send Safe: 1, Never: 2, Auto Send All: 3
 Set-MpPreference -SubmitSamplesConsent 2
 
-function Test-RegistryKeyValue {
-    [CmdletBinding(SupportsShouldProcess = $false)]
-    Param([Parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true)] [string]$Path,
-        [Parameter(Position = 1, Mandatory = $true, ValueFromPipeline = $true)] [string]$Value)
-  
-    Process {
-        if (Test-Path $Path) {
-            $Key = Get-Item -LiteralPath $Path
-            if ($Key.GetValue($Value, $null) -ne $null) { $true } else { $false }
-        }
-        else { $false }
-    }
-}
-
-<#
-# Keys to check
-
-$RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-$KeyList = @(@{Name = "TaskbarGlomLevel"; Value = 1; Description = "Combine taskbar buttons" },
-    @{Name = "TaskbarSmallIcons"; Value = 1; Description = "Use small taskbar buttons" },
-    @{Name = "HideDrivesWithNoMedia"; Value = 1; Description = "Show all drives" },
-    @{Name = "HideMergeConflicts"; Value = 0; Description = "Hide merge conflicts" },
-    @{Name = "ListviewShadow"; Value = 0; Description = "ListviewShadow" },
-    @{Name = "MMTaskbarEnabled"; Value = 0; Description = "MMTaskbarEnabled" },
-    @{Name = "SharingWizardOn"; Value = 0; Description = "Use Sharing Wizard" },
-    @{Name = "TaskbarAnimations"; Value = 1; Description = "TaskbarAnimations" })
-  
-$RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel"
-$KeyList = @(@{Name = "{20D04FE0-3AEA-1069-A2D8-08002B30309D}"; Value = 0; Description = "My Computer icon" },
-    #@{Name="{5399E694-6CE5-4D6C-8FCE-1D8870FDCBA0}"; Value=0; Description="Control Panel icon"},
-    @{Name = "{59031a47-3f72-44a7-89c5-5595fe6b30ee}"; Value = 0; Description = "User Files icon" },
-    @{Name = "{645FF040-5081-101B-9F08-00AA002F954E}"; Value = 0; Description = "Recycle Bin icon" },
-    @{Name = "{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}"; Value = 0; Description = "Network icon" },
-    @{Name = "{018D5C66-4533-4307-9B53-224DE2ED1FE6}"; Value = 0; Description = "Unknown icon" })
-#>
-
 Write-Output "Done. Note that some of these changes require a logout/restart to take effect."
