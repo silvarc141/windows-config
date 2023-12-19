@@ -7,10 +7,6 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     }
 }
 
-# Ask for credentials
-$Message = "Enter the username and password that will run the task"
-$Credential = Get-Credential -Message $Message -UserName "$env:userdomain\$env:username"
-
 function Register-ScheduledPSScriptTask {
     param(
         [string]$TaskName,
@@ -41,6 +37,10 @@ function Register-ScheduledPSScriptTask {
     Register-ScheduledTask @params > $null
     Write-Output "Added task named: $TaskName"
 }
+
+# Ask for credentials
+$Message = "Enter the username and password that will run the task"
+$Credential = Get-Credential -Message $Message -UserName "$env:userdomain\$env:username"
 
 $scheduledScriptsPath = "$env:USERPROFILE\.config\scripts-scheduled"
 

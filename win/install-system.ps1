@@ -11,8 +11,8 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 }
 
 #todo review components, iterate through all system components
-. $componentsDir/setup-windows.ps1
 . $componentsDir/schedule-tasks.ps1
+. $componentsDir/setup-windows.ps1
 
 # Update winget
 $results = (winget --version) | Select-String -Pattern 'v(\d)\.(\d).*'
@@ -41,5 +41,5 @@ foreach ($category in $packagesListObject) {
     }
 }
 
-Write-Host -NoNewLine 'Press any key to continue...';
-$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
+#Write-Host -NoNewLine 'Press any key to continue...';
+#$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown');
