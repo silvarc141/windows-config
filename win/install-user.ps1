@@ -21,7 +21,7 @@ scoop install main/chezmoi
 
 Write-Host "Installing dotfiles..." -ForegroundColor "Yellow"
 chezmoi init $dotfilesRepo --force --keep-going
-chezmoi update
+chezmoi update --force --keep-going
 
 Write-Host "Installing packages..." -ForegroundColor "Yellow"
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
@@ -35,7 +35,7 @@ foreach ($category in $packagesListObject) {
 }
 
 Write-Host "Reapplying dotfiles after installation..." -ForegroundColor "Yellow"
-chezmoi update
+chezmoi update --force --keep-going
 
 Write-Host "Removing user startup apps..." -ForegroundColor "Yellow"
 ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", 
