@@ -64,7 +64,8 @@
             { "value": "main/vim", "manager": "scoop" },
             { "value": "main/vimtutor", "manager": "scoop" },
             { "value": "extras/rider", "manager": "scoop" },
-            { "value": "extras/sourcetree", "manager": "scoop" }
+            { "value": "extras/sourcetree", "manager": "scoop" },
+            { "value": "main/gh", "manager": "scoop" }
         ]
     },
     {
