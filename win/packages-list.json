@@ -18,7 +18,9 @@
         "category": "fonts",
         "packages": [
             { "value": "nerd-fonts/codenewroman-nf", "manager": "scoop" },
-            { "value": "nerd-fonts/cascadiaCode-nf-mono", "manager": "scoop" },
+            { "value": "nerd-fonts/cascadiacode-nf-mono", "manager": "scoop" },
+            { "value": "nerd-fonts/cascadiacode-nf", "manager": "scoop" },
+            { "value": "nerd-fonts/iosevka-nf", "manager": "scoop" },
             { "value": "nerd-fonts/JetbrainsMono-nf-mono", "manager": "scoop" }
         ]
     },
