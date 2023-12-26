@@ -22,8 +22,6 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsy
 #TODO check if already done
 Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online | Out-Null
 
-
-
 Write-Host "Configuring Privacy..." -ForegroundColor "Yellow"
 
 # General: Don't let apps use advertising ID for experiences across apps: Allow: 1, Disallow: 0
@@ -183,8 +181,6 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" "NumberOfSIUFInPeriod" 0
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" "AllowTelemetry" 1
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" "MaxTelemetryAllowed" 1
 
-
-
 Write-Host "Configuring Devices, Power, and Startup..." -ForegroundColor "Yellow"
 
 # Sound: Disable Startup Sound: Enable: 0, Disable: 1
@@ -204,8 +200,6 @@ Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory 
 # Network: Disable WiFi Sense: Enable: 1, Disable: 0
 #Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" "AutoConnectAllowedOEM" 0
 
-
-
 Write-Host "Configuring Explorer, Taskbar, and System Tray..." -ForegroundColor "Yellow"
 
 # Prerequisite: Ensure necessary registry paths
@@ -213,7 +207,7 @@ if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explor
 if (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState")) { New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState" -Type Folder | Out-Null }
 if (!(Test-Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search")) { New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\Windows Search" -Type Folder | Out-Null }
 
-# Desktop: Hide desktop icons: Show: 0, Hide: 1 
+# Desktop: Hide desktop icons: Show: 0, Hide: 1
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "HideIcons" 1
 
 # Light mode: 1, Dark mode: 0
@@ -253,17 +247,37 @@ Set-ItemProperty -Path $path -Name Settings -Value $value
 Remove-Item -Path "$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\*" -Force -Recurse -ErrorAction SilentlyContinue
 Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Force -Recurse -ErrorAction SilentlyContinue
 
-## Enable Custom Background on the Login / Lock Screen
-## File Size Limit: 256Kb
-# Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\Personalization" "LockScreenImage" "C:\someDirectory\someImage.jpg"
+# Enable Custom Background on the Login / Lock Screen, File Size Limit: 256Kb
+#Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\Personalization" "LockScreenImage" "C:\someDirectory\e.jpg"
+
+# Set wallpaper
+$setwallpapersrc = @"
+using System.Runtime.InteropServices;
+
+public class Wallpaper
+{
+      public const int SetDesktopWallpaper = 20;
+      public const int UpdateIniFile = 0x01;
+      public const int SendWinIniChange = 0x02;
+
+      [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+      private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+
+      public static void SetWallpaper(string path)
+      {
+            SystemParametersInfo(SetDesktopWallpaper, 0, path, UpdateIniFile | SendWinIniChange);
+      }
+}
+"@
+
+#Add-Type -TypeDefinition $setwallpapersrc
+#[Wallpaper]::SetWallpaper($)
 
 # Titlebar: Disable theme colors on titlebar: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\DWM" "ColorPrevalence" 1
 
 # Recycle Bin: Disable Delete Confirmation Dialog: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "ConfirmFileDelete" 0
-
-
 
 Write-Host "Configuring Default Windows Applications..." -ForegroundColor "Yellow"
 
@@ -461,8 +475,6 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "MicrosoftTe
 #Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableCloudOptimizedContent" 1 -Force
 #Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableConsumerAccountStateContent" 1 -Force
 
-
-
 Write-Host "Configuring Accessibility..." -ForegroundColor "Yellow"
 
 # Turn Off Windows Narrator Hotkey: Enable: 1, Disable: 0
@@ -470,6 +482,9 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Narrator\NoRoam" "WinEnterLaunchEnabl
 
 # Disable "Window Snap" Automatic Window Arrangement: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\Control Panel\Desktop" "WindowArrangementActive" 0
+
+# Animate windows when minimizing and maximizing: Enable: 1, Disable: 0
+Set-ItemProperty "HKCU:\Control Panel\Desktop\WindowMetrics" "MinAnimate" 0
 
 # Disable automatic fill to space on Window Snap: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SnapFill" 0
@@ -482,8 +497,6 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advan
 
 # Disable auto-correct: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\TabletTip\1.7" "EnableAutocorrection" 0
-
-
 
 Write-Host "Configuring Windows Update..." -ForegroundColor "Yellow"
 
@@ -500,8 +513,6 @@ Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" "AllowAuto
 $MU = New-Object -ComObject Microsoft.Update.ServiceManager -Strict
 $MU.AddService2("7971f918-a847-4430-9279-4a52d1efe18d", 7, "") | Out-Null
 Remove-Variable MU
-
-
 
 Write-Host "Configuring Windows Defender..." -ForegroundColor "Yellow"
 
