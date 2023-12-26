@@ -22,6 +22,15 @@ Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsy
 #TODO check if already done
 Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online | Out-Null
 
+Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
+
+# Set geographical region to United States
+# https://learn.microsoft.com/en-us/windows/win32/intl/table-of-geographical-locations
+Set-WinHomeLocation -GeoId 0xF4
+
+# Set timezone
+Set-TimeZone -Name "Central European Standard Time"
+
 Write-Host "Configuring Privacy..." -ForegroundColor "Yellow"
 
 # General: Don't let apps use advertising ID for experiences across apps: Allow: 1, Disallow: 0
