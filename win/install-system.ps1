@@ -1,6 +1,3 @@
-$packagesList = "$PSScriptRoot\packages-list.json"
-$componentsDir = "$PSScriptRoot\system-components"
-
 # Self-elevate the script if required
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
     if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
@@ -10,8 +7,8 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     }
 }
 
-. $componentsDir/schedule-tasks.ps1
-. $componentsDir/setup-windows.ps1
+. $PSScriptRoot/setup-task-scheduler.ps1
+. $PSScriptRoot/setup-windows.ps1
 
 Write-Host "Updating Winget..." -ForegroundColor "Yellow"
 $results = (winget --version) | Select-String -Pattern 'v(\d)\.(\d).*'
@@ -30,6 +27,7 @@ else {
 }
 
 Write-Host "Installing packages..." -ForegroundColor "Yellow"
+$packagesList = "$PSScriptRoot\packages-list.json"
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 
 #todo support custom commands/parameters in json

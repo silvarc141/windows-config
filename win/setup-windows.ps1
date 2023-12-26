@@ -247,8 +247,12 @@ Set-ItemProperty -Path $path -Name Settings -Value $value
 Remove-Item -Path "$env:APPDATA\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\*" -Force -Recurse -ErrorAction SilentlyContinue
 Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Force -Recurse -ErrorAction SilentlyContinue
 
+$defaultImagePath = "$PSScriptRoot\images\black.png"
+
 # Enable Custom Background on the Login / Lock Screen, File Size Limit: 256Kb
-#Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\Personalization" "LockScreenImage" "C:\someDirectory\e.jpg"
+$regKey = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization'
+if (!(Test-Path -Path $regKey)) { $null = New-Item -Path $regKey }
+Set-ItemProperty $regKey "LockScreenImage" "$defaultImagePath"
 
 # Set wallpaper
 $setwallpapersrc = @"
@@ -270,8 +274,8 @@ public class Wallpaper
 }
 "@
 
-#Add-Type -TypeDefinition $setwallpapersrc
-#[Wallpaper]::SetWallpaper($)
+Add-Type -TypeDefinition $setwallpapersrc
+[Wallpaper]::SetWallpaper($defaultImagePath)
 
 # Titlebar: Disable theme colors on titlebar: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\DWM" "ColorPrevalence" 1
