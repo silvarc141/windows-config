@@ -258,10 +258,14 @@ Remove-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Task
 
 $defaultImagePath = "$PSScriptRoot\images\black.png"
 
+$personalizationKey = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization'
+if (!(Test-Path -Path $personalizationKey)) { $null = New-Item -Path $personalizationKey }
+
+# Disable lockscreen
+Set-ItemProperty $personalizationKey "NoLockScreen" 1
+
 # Enable Custom Background on the Login / Lock Screen, File Size Limit: 256Kb
-$regKey = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization'
-if (!(Test-Path -Path $regKey)) { $null = New-Item -Path $regKey }
-Set-ItemProperty $regKey "LockScreenImage" "$defaultImagePath"
+Set-ItemProperty $personalizationKey "LockScreenImage" "$defaultImagePath"
 
 # Set wallpaper
 $setwallpapersrc = @"
