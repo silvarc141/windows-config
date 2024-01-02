@@ -24,7 +24,7 @@ Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeature
 
 Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
 
-$languages = @("en-US, pl-PL")
+$languages = @("en-US", "pl-PL")
 $mainLanguage = $languages[0]
 
 # Install languages
