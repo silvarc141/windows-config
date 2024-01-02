@@ -24,9 +24,23 @@ Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeature
 
 Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
 
-# Set geographical region to United States
+# Install languages
+Install-Language en-US
+
+# Set input language
+Set-WinUserLanguageList pl-PL -Force
+
+# Set display language (applied after sign-in)
+Set-WinUILanguageOverride en-US
+Set-WinSystemLocale -SystemLocale en-US
+
+# Set culture for date format etc
+# https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c
+Set-Culture en-001 # English (World)
+
+# Set geographical region
 # https://learn.microsoft.com/en-us/windows/win32/intl/table-of-geographical-locations
-Set-WinHomeLocation -GeoId 0xF4
+Set-WinHomeLocation -GeoId 244 #United States
 
 # Set timezone
 Set-TimeZone -Name "Central European Standard Time"
