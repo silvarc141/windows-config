@@ -24,19 +24,27 @@ Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeature
 
 Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
 
+$languages = @("en-US", "pl-PL")
+$mainLanguage = $languages[0]
+
 # Install languages
-Install-Language en-US
+$installed = Get-InstalledLanguage | Foreach-Object { $_.LanguageId }
+$languages | Foreach-Object { if ($installed -notcontains $_) { Install-Language $_ }}
+
+# Uninstall other languages
+$installed | Foreach-Object { if ($languages -notcontains $_) { Uninstall-Language $_ }}
 
 # Set input language
 Set-WinUserLanguageList pl-PL -Force
 
 # Set display language (applied after sign-in)
-Set-WinUILanguageOverride en-US
-Set-WinSystemLocale -SystemLocale en-US
+Set-WinUILanguageOverride $mainLanguage
+Set-WinSystemLocale -SystemLocale $mainLanguage
+Set-SystemPreferredUILanguage -Language $mainLanguage
 
 # Set culture for date format etc
 # https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c
-Set-Culture en-001 # English (World)
+Set-Culture en-150 #English (Europe)
 
 # Set geographical region
 # https://learn.microsoft.com/en-us/windows/win32/intl/table-of-geographical-locations
