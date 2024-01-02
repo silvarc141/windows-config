@@ -116,7 +116,7 @@
     {
         "category": "hardware specific",
         "packages": [
-            { "value": "Nvidia.GeForceExperience", "manager": "winget" },
+            { "value": "TechPowerUp.NVCleanstall", "manager": "winget" },
             { "value": "9WZDNCRFHWLH", "manager": "winget" },
             { "value": "extras/logitech-omm", "manager": "scoop" }
         ]
