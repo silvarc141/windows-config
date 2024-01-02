@@ -67,7 +67,9 @@
             { "value": "main/vimtutor", "manager": "scoop" },
             { "value": "extras/rider", "manager": "scoop" },
             { "value": "extras/sourcetree", "manager": "scoop" },
-            { "value": "main/gh", "manager": "scoop" }
+            { "value": "main/gh", "manager": "scoop" },
+            { "value": "Microsoft.DotNet.Framework.DeveloperPack_4", "manager": "winget" },
+            { "value": "Microsoft.DotNet.SDK.7", "manager": "winget"}
         ]
     },
     {
