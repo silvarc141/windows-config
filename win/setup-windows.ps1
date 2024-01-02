@@ -24,14 +24,17 @@ Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeature
 
 Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
 
+# Target language list
 $languages = @("en-US", "pl-PL")
-$mainLanguage = $languages[0]
 
-# Install languages
+# No installed language can result in a boot loop
+if([string]::IsNullOrEmpty($languages)) { $languages = @("en-US") }
+
+# Install missing languages from the list
 $installed = Get-InstalledLanguage | Foreach-Object { $_.LanguageId }
 $languages | Foreach-Object { if ($installed -notcontains $_) { Install-Language $_ }}
 
-# Uninstall other languages
+# Uninstall languages not on the list
 $installed | Foreach-Object { if ($languages -notcontains $_) { Uninstall-Language $_ }}
 
 # Set input language
@@ -41,9 +44,10 @@ Set-WinUserLanguageList $languages -Force
 Set-WinDefaultInputMethodOverride pl-PL
 
 # Set display language (applied after sign-in)
-Set-WinUILanguageOverride $mainLanguage
-Set-WinSystemLocale -SystemLocale $mainLanguage
-Set-SystemPreferredUILanguage -Language $mainLanguage
+$displayLanguage = $languages[0]
+Set-WinUILanguageOverride $displayLanguage
+Set-WinSystemLocale -SystemLocale $displayLanguage
+Set-SystemPreferredUILanguage -Language $displayLanguage
 
 # Set culture for date format etc
 # https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c
@@ -94,6 +98,11 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliver
 
 # General: Disable tips and suggestions when I use windows: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" "SubscribedContent-338389Enabled" 0
+
+# General: Prevent "Suggested Applications" from returning
+#Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1 -Force
+#Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableCloudOptimizedContent" 1 -Force
+#Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableConsumerAccountStateContent" 1 -Force
 
 # Start Menu: Disable suggested content: Enable: 1, Disable: 0
 #Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" "SubscribedContent-338388Enabled" 0
@@ -507,9 +516,7 @@ Get-AppxPackage "Microsoft.Todos" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.Todos" | Remove-AppxProvisionedPackage -Online -AllUsers
 
 # Uninstall OneDrive
-#Get-AppxPackage "Microsoft.OneDrive" -AllUsers | Remove-AppxPackage -AllUsers
-#Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.OneDrive" | Remove-AppxProvisionedPackage -Online -AllUsers
-winget uninstall Microsoft.OneDrive --force --silent --accept-source-agreements --disable-interactivity
+#winget uninstall Microsoft.OneDrive --force --silent --accept-source-agreements --disable-interactivity
 
 # Uninstall Microsoft Teams (non work/school)
 Get-AppxPackage "MicrosoftTeams" -AllUsers | Remove-AppxPackage -AllUsers
@@ -517,11 +524,6 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "MicrosoftTe
 
 # Uninstall Windows Media Player //throws errors, outdated?
 #Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
-
-# Prevent "Suggested Applications" from returning
-#Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableWindowsConsumerFeatures" 1 -Force
-#Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableCloudOptimizedContent" 1 -Force
-#Set-ItemProperty "HKLM:\Software\Policies\Microsoft\Windows\CloudContent" "DisableConsumerAccountStateContent" 1 -Force
 
 Write-Host "Configuring Accessibility..." -ForegroundColor "Yellow"
 
