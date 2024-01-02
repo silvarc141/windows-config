@@ -24,7 +24,7 @@ Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeature
 
 Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
 
-$languages = @("en-US", "pl-PL")
+$languages = @("en-US")
 $mainLanguage = $languages[0]
 
 # Install languages
@@ -35,7 +35,7 @@ $languages | Foreach-Object { if ($installed -notcontains $_) { Install-Language
 $installed | Foreach-Object { if ($languages -notcontains $_) { Uninstall-Language $_ }}
 
 # Set input language
-Set-WinUserLanguageList pl-PL -Force
+Set-WinUserLanguageList $languages -Force
 
 # Set display language (applied after sign-in)
 Set-WinUILanguageOverride $mainLanguage
@@ -542,6 +542,16 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advan
 
 # Disable auto-correct: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\TabletTip\1.7" "EnableAutocorrection" 0
+
+# Disable accessibility keys prompts (Sticky keys, Toggle keys, Filter keys)
+Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Type String -Value "506"
+Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\ToggleKeys" -Name "Flags" -Type String -Value "58"
+Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" -Name "Flags" -Type String -Value "122"
+
+# Set classic Control Panel to small icons
+If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel")) { New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" | Out-Null }
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "StartupPage" -Type DWord -Value 1
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "AllItemsIconView" -Type DWord -Value 1
 
 Write-Host "Configuring Windows Update..." -ForegroundColor "Yellow"
 
