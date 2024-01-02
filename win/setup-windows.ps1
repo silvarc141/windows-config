@@ -24,7 +24,7 @@ Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeature
 
 Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
 
-$languages = @("en-US")
+$languages = @("en-US, pl-PL")
 $mainLanguage = $languages[0]
 
 # Install languages
@@ -36,6 +36,9 @@ $installed | Foreach-Object { if ($languages -notcontains $_) { Uninstall-Langua
 
 # Set input language
 Set-WinUserLanguageList $languages -Force
+
+# Override default input method
+Set-WinDefaultInputMethodOverride pl-PL
 
 # Set display language (applied after sign-in)
 Set-WinUILanguageOverride $mainLanguage
