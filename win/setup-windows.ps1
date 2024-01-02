@@ -81,7 +81,12 @@ Set-ItemProperty "HKCU:\Software\Policies\Microsoft\Windows\Explorer" "DisableSe
 if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam" -Type Folder | Out-Null }
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam" "Value" "Allow"
 
-#j Microphone: Don't let apps use microphone: Allow, Deny
+# Copilot: Enable: 0, Disable: 1
+$copilotKey = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot"
+if (!(Test-Path $copilotKey)) { New-Item -Path $copilotKey -Type Folder | Out-Null }
+Set-ItemProperty $copilotKey "TurnOffWindowsCopilot" 1
+
+# Microphone: Don't let apps use microphone: Allow, Deny
 if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone" -Type Folder | Out-Null }
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone" "Value" "Allow"
 
