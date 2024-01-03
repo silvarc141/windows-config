@@ -23,7 +23,7 @@ if($major -and $minor) {
     Remove-Item winget.msixbundle
 }
 else {
-    winget upgrade winget
+    winget upgrade winget --silent --accept-package-agreements
 }
 
 Write-Host "Installing packages..." -ForegroundColor "Yellow"
@@ -34,7 +34,7 @@ $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 foreach ($category in $packagesListObject) {
     foreach ($package in $category.packages) {
         if ($package.manager -eq 'winget') {
-            winget install $package.value --silent --accept-package-agreements --source winget
+            winget install --exact $package.value --silent --accept-package-agreements --source winget
         }
     }
 }
