@@ -44,6 +44,8 @@ function Unzip-File {
 }
 
 $tempDir = "$env:TEMP\$repo"
+Remove-Item -Path $tempDir -Recurse -Forcet
+
 New-Item -ItemType Directory -Path $tempDir -Force
 $zip = "$tempDir\$repo.zip"
 $installDir = "$tempDir\$repo-$branch\$os"

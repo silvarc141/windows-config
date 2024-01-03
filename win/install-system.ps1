@@ -23,7 +23,7 @@ if($major -and $minor) {
     Remove-Item winget.msixbundle
 }
 else {
-    winget upgrade winget --silent --accept-package-agreements
+    winget upgrade winget --silent --accept-package-agreements --accept-source-agreements
 }
 
 Write-Host "Installing packages..." -ForegroundColor "Yellow"
