@@ -29,7 +29,9 @@ $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 foreach ($category in $packagesListObject) {
     foreach ($package in $category.packages) {
         if ($package.manager -eq 'scoop') {
+            Write-Host "`nInstalling $($package.value)"
             scoop install $package.value
+            scoop update $package.value
         }
     }
 }
