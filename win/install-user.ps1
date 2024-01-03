@@ -20,8 +20,11 @@ scoop update
 
 Write-Host "Installing installation dependencies..." -ForegroundColor "Yellow"
 scoop install main/aria2
+scoop update main/aria2
 scoop install main/git
+scoop update main/git
 scoop install main/chezmoi
+scoop update main/chezmoi
 
 Write-Host "Installing dotfiles..." -ForegroundColor "Yellow"
 chezmoi init $dotfilesRepo --force --keep-going
