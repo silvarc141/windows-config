@@ -28,22 +28,20 @@ Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
 $languages = @("en-US", "pl-PL")
 
 # No installed language can result in a boot loop
-if([string]::IsNullOrEmpty($languages)) { $languages = @("en-US") }
+if ([string]::IsNullOrEmpty($languages)) { $languages = @("en-US") }
 
 # Install missing languages from the list
 $installed = Get-InstalledLanguage | Foreach-Object { $_.LanguageId }
-$languages | Foreach-Object { if ($installed -notcontains $_) 
-      { 
+$languages | Foreach-Object { if ($installed -notcontains $_) { 
             Write-Host "Installing requested language: $_"
             Install-Language $_ 
-      }}
+      } }
 
 # Uninstall languages not on the list
-$installed | Foreach-Object { if ($languages -notcontains $_) 
-      { 
+$installed | Foreach-Object { if ($languages -notcontains $_) { 
             Write-Host "Uninstalling unnecessary language: $_"
             Uninstall-Language $_ 
-      }}
+      } }
 
 # Set input language
 Set-WinUserLanguageList $languages -Force
@@ -548,11 +546,15 @@ Write-Host "Configuring Windows features and capabilities"
 
 # Install WSL
 #TODO check if already done
-Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
+$featureName = "Microsoft-Windows-Subsystem-Linux"
+$featureObject = Get-WindowsOptionalFeature -Online -FeatureName $featureName
+
+if ($($null -eq $featureObject) -or $($featureObject.State -ne 'Enabled')) {
+      Enable-WindowsOptionalFeature -Online -All -FeatureName $featureName -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
 
 # Install media feature pack
-#TODO check if already done
-Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online | Out-Null
+#Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online | Out-Null
 
 Write-Host "Configuring Windows Update..." -ForegroundColor "Yellow"
 

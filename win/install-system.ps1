@@ -30,10 +30,10 @@ Write-Host "Installing packages..." -ForegroundColor "Yellow"
 $packagesList = "$PSScriptRoot\packages-list.json"
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 
-#todo support custom commands/parameters in json
 foreach ($category in $packagesListObject) {
     foreach ($package in $category.packages) {
         if ($package.manager -eq 'winget') {
+            Write-Host "`nInstalling package: $($package.value)"
             winget install --exact $package.value --silent --accept-package-agreements --source winget
         }
     }
