@@ -1,17 +1,18 @@
 $account = "silvarc141"
-$repo    = "os-setup"
-$branch  = "main"
+$repo = "os-setup"
+$branch = "main"
 $os = "win"
 
 function Download-File {
     param (
-      [string]$url,
-      [string]$file
+        [string]$url,
+        [string]$file
     )
+    
     Write-Host "Downloading $url to $file"
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     Invoke-WebRequest -Uri $url -OutFile $file
-  }
+}
 
 function Unzip-File {
     param (
@@ -30,21 +31,26 @@ function Unzip-File {
         try {
             [System.Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem") | Out-Null
             [System.IO.Compression.ZipFile]::ExtractToDirectory("$filePath", "$destinationPath")
-        } catch {
+        }
+        catch {
             Write-Warning -Message "Unexpected Error. Error details: $_.Exception.Message"
         }
-    } else {
+    }
+    else {
         try {
             $shell = New-Object -ComObject Shell.Application
             $shell.Namespace($destinationPath).copyhere(($shell.NameSpace($filePath)).items())
-        } catch {
+        }
+        catch {
             Write-Warning -Message "Unexpected Error. Error details: $_.Exception.Message"
         }
     }
 }
 
 $tempDir = "$env:TEMP\$repo"
-Remove-Item -Path $tempDir -Recurse -Forcet
+
+# Remove previous (aborted) installation files
+Remove-Item -Path $tempDir -Recurse -Force
 
 New-Item -ItemType Directory -Path $tempDir -Force
 $zip = "$tempDir\$repo.zip"
@@ -52,7 +58,7 @@ $installDir = "$tempDir\$repo-$branch\$os"
 
 Write-Host "Downloading installation files..." -ForegroundColor "Yellow"
 Download-File "https://github.com/$account/$repo/archive/$branch.zip" $zip
-if(Test-Path $installDir) { Remove-Item -Path $installDir -Recurse -Force }
+if (Test-Path $installDir) { Remove-Item -Path $installDir -Recurse -Force }
 Unzip-File $zip $tempDir
 
 Push-Location $installDir

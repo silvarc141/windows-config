@@ -553,7 +553,7 @@ if ($($null -eq $featureObject) -or $($featureObject.State -ne 'Enabled')) {
       Enable-WindowsOptionalFeature -Online -All -FeatureName $featureName -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
-# Install media feature pack
+# Install media feature pack (for Windows N versions)
 #Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online | Out-Null
 
 Write-Host "Configuring Windows Update..." -ForegroundColor "Yellow"
