@@ -3,18 +3,18 @@ $repo = "os-setup"
 $branch = "main"
 $os = "win"
 
-function Download-File {
+function Get-FileFromUrl {
     param (
         [string]$url,
         [string]$file
     )
-    
+
     Write-Host "Downloading $url to $file"
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     Invoke-WebRequest -Uri $url -OutFile $file
 }
 
-function Unzip-File {
+function Get-UnzippedContentFromFile {
     param (
         [string]$File,
         [string]$Destination = (Get-Location).Path
@@ -57,9 +57,9 @@ $zip = "$tempDir\$repo.zip"
 $installDir = "$tempDir\$repo-$branch\$os"
 
 Write-Host "Downloading installation files..." -ForegroundColor "Yellow"
-Download-File "https://github.com/$account/$repo/archive/$branch.zip" $zip
+Get-FileFromUrl "https://github.com/$account/$repo/archive/$branch.zip" $zip
 if (Test-Path $installDir) { Remove-Item -Path $installDir -Recurse -Force }
-Unzip-File $zip $tempDir
+Get-UnzippedContentFromFile $zip $tempDir
 
 Push-Location $installDir
 Start-Process powershell.exe -NoNewWindow -Wait -ArgumentList ".\install-all.ps1"
