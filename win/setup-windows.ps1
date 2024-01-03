@@ -1,15 +1,32 @@
+class RegistryKey {
+      [string]$path
+      [string]$property
+      [string]$action
+      [string]$description
+      [string]$activeValue
+      [string]$inactiveValue;
+
+      RegistryKey(
+            [string]$path,
+            [string]$property,
+            [string]$action,
+            [string]$description,
+            [string]$activeValue,
+            [string]$inactiveValue
+      ) {
+            $this.path = $path
+            $this.property = $property
+            $this.action = $action
+            $this.description = $description
+            $this.activeValue = $activeValue
+            $this.inactiveValue = $inactiveValue
+      }
+}
+
 Write-Host "Configuring System..." -ForegroundColor "Yellow"
 
 # Set Computer Name
 (Get-WmiObject Win32_ComputerSystem).Rename("sm-win") | Out-Null
-
-# Set DisplayName for my account. Use only if you are not using a Microsoft Account
-# $myIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent()
-# $user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myIdentity.Name}
-# $user.FullName = "Jay Harris"
-# $user.Put() | Out-Null
-# Remove-Variable user
-# Remove-Variable myIdentity
 
 # Enable Developer Mode: Enable: 1, Disable: 0
 #Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
@@ -28,14 +45,14 @@ Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
 $languages = @("en-US", "pl-PL")
 
 # No installed language can result in a boot loop
-if([string]::IsNullOrEmpty($languages)) { $languages = @("en-US") }
+if ([string]::IsNullOrEmpty($languages)) { $languages = @("en-US") }
 
 # Install missing languages from the list
 $installed = Get-InstalledLanguage | Foreach-Object { $_.LanguageId }
-$languages | Foreach-Object { if ($installed -notcontains $_) { Install-Language $_ }}
+$languages | Foreach-Object { if ($installed -notcontains $_) { Install-Language $_ } }
 
 # Uninstall languages not on the list
-$installed | Foreach-Object { if ($languages -notcontains $_) { Uninstall-Language $_ }}
+$installed | Foreach-Object { if ($languages -notcontains $_) { Uninstall-Language $_ } }
 
 # Set input language
 Set-WinUserLanguageList $languages -Force
@@ -62,7 +79,11 @@ Set-TimeZone -Name "Central European Standard Time"
 
 Write-Host "Configuring Privacy..." -ForegroundColor "Yellow"
 
-# General: Don't let apps use advertising ID for experiences across apps: Allow: 1, Disallow: 0
+$keys = @(
+      [RegistryKey]::new("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo", "Enabled", "", "Allow apps to use advertising ID for experiences across apps", 1, 0)
+)
+
+# General: Don't : Allow: 1, Disallow: 0
 if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Type Folder | Out-Null }
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled" 0
 Remove-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Id" -ErrorAction SilentlyContinue
@@ -521,9 +542,6 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.T
 # Uninstall Microsoft Teams (non work/school)
 Get-AppxPackage "MicrosoftTeams" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "MicrosoftTeams" | Remove-AppxProvisionedPackage -Online -AllUsers
-
-# Uninstall Windows Media Player //throws errors, outdated?
-#Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
 
 Write-Host "Configuring Accessibility..." -ForegroundColor "Yellow"
 
