@@ -3,24 +3,24 @@ Write-Host "Configuring System..." -ForegroundColor "Yellow"
 # Set Computer Name
 (Get-WmiObject Win32_ComputerSystem).Rename("sm-win") | Out-Null
 
-# Set DisplayName for my account. Use only if you are not using a Microsoft Account
-# $myIdentity=[System.Security.Principal.WindowsIdentity]::GetCurrent()
-# $user = Get-WmiObject Win32_UserAccount | Where {$_.Caption -eq $myIdentity.Name}
-# $user.FullName = "Jay Harris"
-# $user.Put() | Out-Null
-# Remove-Variable user
-# Remove-Variable myIdentity
+Write-Host "Configuring Devices, Power, and Startup..." -ForegroundColor "Yellow"
 
-# Enable Developer Mode: Enable: 1, Disable: 0
-#Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
+# Sound: Disable Startup Sound: Enable: 0, Disable: 1
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" "DisableStartupSound" 1
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" "DisableStartupSound" 1
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\EditionOverrides" "UserSetting_DisableStartupSound" 1
 
-# Install WSL
-#TODO check if already done
-Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
+# Power: Disable Hibernation
+#powercfg /hibernate off
 
-# Install media feature pack
-#TODO check if already done
-Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online | Out-Null
+# Power: Set standby delay to 24 hours
+powercfg /change /standby-timeout-ac 1440
+
+# SSD: Disable SuperFetch: Enable: 1, Disable: 0
+Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnableSuperfetch" 0
+
+# Network: Disable WiFi Sense: Enable: 1, Disable: 0
+#Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" "AutoConnectAllowedOEM" 0
 
 Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
 
@@ -32,10 +32,18 @@ if([string]::IsNullOrEmpty($languages)) { $languages = @("en-US") }
 
 # Install missing languages from the list
 $installed = Get-InstalledLanguage | Foreach-Object { $_.LanguageId }
-$languages | Foreach-Object { if ($installed -notcontains $_) { Install-Language $_ }}
+$languages | Foreach-Object { if ($installed -notcontains $_) 
+      { 
+            Write-Host "Installing requested language: $_"
+            Install-Language $_ 
+      }}
 
 # Uninstall languages not on the list
-$installed | Foreach-Object { if ($languages -notcontains $_) { Uninstall-Language $_ }}
+$installed | Foreach-Object { if ($languages -notcontains $_) 
+      { 
+            Write-Host "Uninstalling unnecessary language: $_"
+            Uninstall-Language $_ 
+      }}
 
 # Set input language
 Set-WinUserLanguageList $languages -Force
@@ -228,25 +236,6 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" "NumberOfSIUFInPeriod" 0
 # Feedback: Telemetry: Send Diagnostic and usage data: Basic: 1, Enhanced: 2, Full: 3
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" "AllowTelemetry" 1
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" "MaxTelemetryAllowed" 1
-
-Write-Host "Configuring Devices, Power, and Startup..." -ForegroundColor "Yellow"
-
-# Sound: Disable Startup Sound: Enable: 0, Disable: 1
-Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" "DisableStartupSound" 1
-Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" "DisableStartupSound" 1
-Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\EditionOverrides" "UserSetting_DisableStartupSound" 1
-
-# Power: Disable Hibernation
-#powercfg /hibernate off
-
-# Power: Set standby delay to 24 hours
-powercfg /change /standby-timeout-ac 1440
-
-# SSD: Disable SuperFetch: Enable: 1, Disable: 0
-Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" "EnableSuperfetch" 0
-
-# Network: Disable WiFi Sense: Enable: 1, Disable: 0
-#Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" "AutoConnectAllowedOEM" 0
 
 Write-Host "Configuring Explorer, Taskbar, and System Tray..." -ForegroundColor "Yellow"
 
@@ -515,15 +504,12 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.Z
 Get-AppxPackage "Microsoft.Todos" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.Todos" | Remove-AppxProvisionedPackage -Online -AllUsers
 
-# Uninstall OneDrive
-#winget uninstall Microsoft.OneDrive --force --silent --accept-source-agreements --disable-interactivity
-
 # Uninstall Microsoft Teams (non work/school)
 Get-AppxPackage "MicrosoftTeams" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "MicrosoftTeams" | Remove-AppxProvisionedPackage -Online -AllUsers
 
-# Uninstall Windows Media Player //throws errors, outdated?
-#Disable-WindowsOptionalFeature -Online -FeatureName "WindowsMediaPlayer" -NoRestart -WarningAction SilentlyContinue | Out-Null
+# Uninstall OneDrive
+#winget uninstall Microsoft.OneDrive --force --silent --accept-source-agreements --disable-interactivity
 
 Write-Host "Configuring Accessibility..." -ForegroundColor "Yellow"
 
@@ -557,6 +543,16 @@ Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" -Na
 If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel")) { New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" | Out-Null }
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "StartupPage" -Type DWord -Value 1
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "AllItemsIconView" -Type DWord -Value 1
+
+Write-Host "Configuring Windows features and capabilities"
+
+# Install WSL
+#TODO check if already done
+Enable-WindowsOptionalFeature -Online -All -FeatureName "Microsoft-Windows-Subsystem-Linux" -NoRestart -WarningAction SilentlyContinue | Out-Null
+
+# Install media feature pack
+#TODO check if already done
+Get-WindowsCapability -online | Where-Object -Property name -like "*MediaFeaturePack*" | Add-WindowsCapability -Online | Out-Null
 
 Write-Host "Configuring Windows Update..." -ForegroundColor "Yellow"
 
