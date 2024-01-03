@@ -48,9 +48,7 @@ function Get-UnzippedContentFromFile {
 }
 
 $tempDir = "$env:TEMP\$repo"
-
-# Remove previous (aborted) installation files
-Remove-Item -Path $tempDir -Recurse -Force
+if (Test-Path $tempDir) { Remove-Item -Path $tempDir -Recurse -Force }
 
 New-Item -ItemType Directory -Path $tempDir -Force
 $zip = "$tempDir\$repo.zip"
@@ -58,7 +56,6 @@ $installDir = "$tempDir\$repo-$branch\$os"
 
 Write-Host "Downloading installation files..." -ForegroundColor "Yellow"
 Get-FileFromUrl "https://github.com/$account/$repo/archive/$branch.zip" $zip
-if (Test-Path $installDir) { Remove-Item -Path $installDir -Recurse -Force }
 Get-UnzippedContentFromFile $zip $tempDir
 
 Push-Location $installDir
