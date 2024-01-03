@@ -520,6 +520,9 @@ Set-ItemProperty "HKCU:\Control Panel\Desktop" "WindowArrangementActive" 0
 # Animate windows when minimizing and maximizing: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\Control Panel\Desktop\WindowMetrics" "MinAnimate" 0
 
+# Set shorter menu show delay: Default: 400, Shorter: 200
+Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" "MenuShowDelay" 200
+
 # Disable automatic fill to space on Window Snap: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "SnapFill" 0
 
