@@ -44,7 +44,8 @@
             { "value": "Discord.Discord", "manager": "winget" },
             { "value": "Vendicated.Vencord", "manager": "winget" },
             { "value": "Readdle.Spark", "manager": "winget" },
-            { "value": "Microsoft.Teams", "manager": "winget" }
+            { "value": "Microsoft.Teams", "manager": "winget" },
+            { "value": "NovaTechnology.Beeper", "manager": "winget"}
         ]
     },
     {
