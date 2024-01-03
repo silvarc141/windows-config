@@ -2,7 +2,11 @@ $dotfilesRepo = 'https://github.com/silvarc141/dotfiles.git'
 $packagesList = "$PSScriptRoot\packages-list.json"
 
 Write-Host "Setting up Scoop..." -ForegroundColor "Yellow"
+
+$HoldErrorActionPreference = $ErrorActionPreference
+$ErrorActionPreference = 'SilentlyContinue'
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+$ErrorActionPreference = $HoldErrorActionPreference
 
 if(![Boolean](Get-Command scoop -ErrorAction SilentlyContinue)) {
     "$(Invoke-RestMethod get.scoop.sh)" | Invoke-Expression
