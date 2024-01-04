@@ -548,7 +548,6 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 Write-Host "Configuring Windows features and capabilities" -ForegroundColor "Yellow"
 
 # Install WSL
-#TODO check if already done
 $featureName = "Microsoft-Windows-Subsystem-Linux"
 $featureObject = Get-WindowsOptionalFeature -Online -FeatureName $featureName
 
