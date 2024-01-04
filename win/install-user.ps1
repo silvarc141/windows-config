@@ -36,7 +36,10 @@ Write-Host "`nInstalling dotfiles..." -ForegroundColor "Yellow"
 chezmoi init $dotfilesRepo --force --keep-going
 chezmoi update --force --keep-going
 
+scoop update # remove when dotfiles ignore scoop update date
+
 Write-Host "`nInstalling packages..." -ForegroundColor "Yellow"
+
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 
 foreach ($category in $packagesListObject) {

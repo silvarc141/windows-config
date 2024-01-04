@@ -545,7 +545,7 @@ If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Contro
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "StartupPage" -Type DWord -Value 1
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "AllItemsIconView" -Type DWord -Value 1
 
-Write-Host "Configuring Windows features and capabilities"
+Write-Host "Configuring Windows features and capabilities" -ForegroundColor "Yellow"
 
 # Install WSL
 #TODO check if already done
