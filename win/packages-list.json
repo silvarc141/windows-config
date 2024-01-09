@@ -54,7 +54,8 @@
             { "value": "extras/autohotkey", "manager": "scoop" },
             { "value": "extras/glazewm", "manager": "scoop" },
             { "value": "extras/everything", "manager": "scoop" },
-            { "value": "extras/obsidian", "manager": "scoop" }
+            { "value": "extras/obsidian", "manager": "scoop" },
+            { "value": "extras/pirinha", "manager": "scoop" }
         ]
     },
     {
