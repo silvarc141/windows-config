@@ -32,15 +32,15 @@ if ([string]::IsNullOrEmpty($languages)) { $languages = @("en-US") }
 
 # Install missing languages from the list
 $installed = Get-InstalledLanguage | Foreach-Object { $_.LanguageId }
-$languages | Foreach-Object { if ($installed -notcontains $_) { 
+$languages | Foreach-Object { if ($installed -notcontains $_) {
             Write-Host "Installing requested language: $_"
-            Install-Language $_ 
+            Install-Language $_
       } }
 
 # Uninstall languages not on the list
-$installed | Foreach-Object { if ($languages -notcontains $_) { 
+$installed | Foreach-Object { if ($languages -notcontains $_) {
             Write-Host "Uninstalling unnecessary language: $_"
-            Uninstall-Language $_ 
+            Uninstall-Language $_
       } }
 
 # Set input language
@@ -544,6 +544,19 @@ Set-ItemProperty -Path "HKCU:\Control Panel\Accessibility\Keyboard Response" -Na
 If (!(Test-Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel")) { New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" | Out-Null }
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "StartupPage" -Type DWord -Value 1
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel" -Name "AllItemsIconView" -Type DWord -Value 1
+
+# Rebind keys
+
+if (!(Test-Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout"))
+{
+    New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" | Out-Null
+}
+
+$binds = @(0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0, # header
+0x2,0x0,0x0,0x0, # how many entries including null entry
+0x58,0x0,0x5b,0xe0, # entry: left windows key (0xe05b) to F12 (0x58)
+0x0,0x0,0x0,0x0) # null entry
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" -Name "Scancode Map" -Type Binary -Value $binds
 
 Write-Host "Configuring Windows features and capabilities" -ForegroundColor "Yellow"
 
