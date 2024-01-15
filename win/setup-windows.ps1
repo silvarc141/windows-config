@@ -322,6 +322,10 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\DWM" "ColorPrevalence" 1
 # Recycle Bin: Disable Delete Confirmation Dialog: Enable: 1, Disable: 0
 Set-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" "ConfirmFileDelete" 0
 
+# Disable Xbox gamebar system calls (ms-gamingoverlay): Enable: 1, Disable: 0
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" "AppCaptureEnabled" -Type Dword -Value 0
+Set-ItemProperty "HKCU:\System\GameConfigStore" "GameDVR_Enabled" -Type Dword -Value 0
+
 Write-Host "Configuring Default Windows Applications..." -ForegroundColor "Yellow"
 
 # Uninstall 3D Builder
