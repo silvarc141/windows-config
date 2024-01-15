@@ -482,9 +482,19 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.W
 
 # Uninstall XBox
 Get-AppxPackage "Microsoft.XboxGamingOverlay" -AllUsers | Remove-AppxPackage -AllUsers
-Get-AppxPackage "Microsoft.GamingApp" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.XboxGamingOverlay" | Remove-AppxProvisionedPackage -Online -AllUsers
+
+Get-AppxPackage "Microsoft.GamingApp" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.GamingApp" | Remove-AppxProvisionedPackage -Online -AllUsers
+
+Get-AppxPackage "Microsoft.XboxGameOverlay" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.XboxGameOverlay" | Remove-AppxProvisionedPackage -Online -AllUsers
+
+Get-AppxPackage "Microsoft.XboxSpeechToTextOverlay" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.XboxSpeechToTextOverlay" | Remove-AppxProvisionedPackage -Online -AllUsers
+
+Get-AppxPackage "Microsoft.XboxIdentityProvider" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.XboxIdentityProvider" | Remove-AppxProvisionedPackage -Online -AllUsers
 
 # Uninstall Your Phone
 Get-AppxPackage "Microsoft.YourPhone" -AllUsers | Remove-AppxPackage -AllUsers
@@ -509,6 +519,22 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "MicrosoftTe
 # Uninstall Power Automate
 Get-AppxPackage "Microsoft.PowerAutomateDesktop" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.PowerAutomateDesktop" | Remove-AppxProvisionedPackage -Online -AllUsers
+
+# Uninstall QuickAssist
+Get-AppxPackage "MicrosoftCorporationII.QuickAssist" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "MicrosoftCorporationII.QuickAssist" | Remove-AppxProvisionedPackage -Online -AllUsers
+
+# Uninstall FeedbackHub
+Get-AppxPackage "Microsoft.WindowsFeedbackHub" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.WindowsFeedbackHub" | Remove-AppxProvisionedPackage -Online -AllUsers
+
+# Uninstall GetHelp
+Get-AppxPackage "Microsoft.GetHelp" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.GetHelp" | Remove-AppxProvisionedPackage -Online -AllUsers
+
+# Uninstall Outlook (new)
+Get-AppxPackage "Microsoft.OutlookForWindows" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.OutlookForWindows" | Remove-AppxProvisionedPackage -Online -AllUsers
 
 # Uninstall OneDrive
 #winget uninstall Microsoft.OneDrive --force --silent --accept-source-agreements --disable-interactivity
