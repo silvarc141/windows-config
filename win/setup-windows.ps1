@@ -47,7 +47,7 @@ $installed | Foreach-Object { if ($languages -notcontains $_) {
 Set-WinUserLanguageList $languages -Force
 
 # Override default input method
-Set-WinDefaultInputMethodOverride pl-PL
+Set-WinDefaultInputMethodOverride -InputTip "0415:00000415" #pl
 
 # Set display language (applied after sign-in)
 $displayLanguage = $languages[0]
