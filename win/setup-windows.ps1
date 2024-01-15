@@ -506,6 +506,10 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.T
 Get-AppxPackage "MicrosoftTeams" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "MicrosoftTeams" | Remove-AppxProvisionedPackage -Online -AllUsers
 
+# Uninstall Power Automate
+Get-AppxPackage "Microsoft.PowerAutomateDesktop" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.PowerAutomateDesktop" | Remove-AppxProvisionedPackage -Online -AllUsers
+
 # Uninstall OneDrive
 #winget uninstall Microsoft.OneDrive --force --silent --accept-source-agreements --disable-interactivity
 
