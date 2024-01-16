@@ -5,7 +5,7 @@ function Install-ScoopPackage {
     param (
         $name
     )
-    
+
     Write-Host "`nInstalling $($name)"
     scoop install $name
     scoop update $name
@@ -30,7 +30,11 @@ scoop update
 
 Write-Host "`nInstalling installation dependencies..." -ForegroundColor "Yellow"
 
-@("main/aria2", "main/git", "main/chezmoi") | ForEach-Object { Install-ScoopPackage $_ }
+@("main/aria2", "main/chezmoi") | ForEach-Object { Install-ScoopPackage $_ }
+
+if (![Boolean](Get-Command git -ErrorAction SilentlyContinue)) {
+    Install-ScoopPackage "main/git"
+}
 
 Write-Host "`nInstalling dotfiles..." -ForegroundColor "Yellow"
 chezmoi init $dotfilesRepo --force --keep-going
@@ -44,8 +48,8 @@ $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 
 foreach ($category in $packagesListObject) {
     foreach ($package in $category.packages) {
-        if ($package.manager -eq 'scoop') { 
-            Install-ScoopPackage $package.value 
+        if ($package.manager -eq 'scoop') {
+            Install-ScoopPackage $package.value
         }
     }
 }
@@ -54,7 +58,7 @@ Write-Host "`nReapplying dotfiles after installation..." -ForegroundColor "Yello
 chezmoi update --force --keep-going
 
 Write-Host "`nRemoving user startup apps..." -ForegroundColor "Yellow"
-("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run", 
+("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
 "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce") |
 ForEach-Object { @{Path = $_; Item = Get-Item -Path $_ } } |
 Where-Object { $_.Item.ValueCount -ne 0 } |
