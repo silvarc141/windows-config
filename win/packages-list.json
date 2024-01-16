@@ -63,6 +63,7 @@
             { "value": "Unity.UnityHub", "manager": "winget" },
             { "value": "main/rustup", "manager": "scoop" },
             { "value": "main/neovim", "manager": "scoop" },
+            { "value": "extras/neovide", "manager": "scoop" },
             { "value": "main/vim", "manager": "scoop" },
             { "value": "main/vimtutor", "manager": "scoop" },
             { "value": "extras/rider", "manager": "scoop" },
@@ -93,6 +94,7 @@
             { "value": "Valve.Steam", "manager": "winget" },
             { "value": "EpicGames.EpicGamesLauncher", "manager": "winget" },
             { "value": "Battle.net", "manager": "winget" }
+            { "value": "main/typioca", "manager": "scoop" }
         ]
     },
     {
