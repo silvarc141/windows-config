@@ -25,7 +25,7 @@ if (![Boolean](Get-Command scoop -ErrorAction SilentlyContinue)) {
 scoop bucket add extras
 scoop bucket add nerd-fonts
 scoop bucket add sysinternals
-scoop bucket add DEV-tools https://github.com/anderlli0053/DEV-tools.git
+#scoop bucket add DEV-tools https://github.com/anderlli0053/DEV-tools.git
 scoop update
 
 Write-Host "`nInstalling installation dependencies..." -ForegroundColor "Yellow"

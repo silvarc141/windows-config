@@ -557,6 +557,14 @@ Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.G
 Get-AppxPackage "Microsoft.OutlookForWindows" -AllUsers | Remove-AppxPackage -AllUsers
 Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.OutlookForWindows" | Remove-AppxProvisionedPackage -Online -AllUsers
 
+# Uninstall Snipping Tool
+Get-AppxPackage "Microsoft.ScreenSketch" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.ScreenSketch" | Remove-AppxProvisionedPackage -Online -AllUsers
+
+# Uninstall Get Started
+Get-AppxPackage "Microsoft.Getstarted" -AllUsers | Remove-AppxPackage -AllUsers
+Get-AppXProvisionedPackage -Online | Where-Object DisplayName -like "Microsoft.Getstarted" | Remove-AppxProvisionedPackage -Online -AllUsers
+
 # Uninstall OneDrive
 winget uninstall Microsoft.OneDrive --force --silent --accept-source-agreements --disable-interactivity
 
