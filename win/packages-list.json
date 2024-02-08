@@ -94,7 +94,8 @@
             { "value": "Valve.Steam", "manager": "winget" },
             { "value": "EpicGames.EpicGamesLauncher", "manager": "winget" },
             { "value": "Battle.net", "manager": "winget" },
-            { "value": "main/typioca", "manager": "scoop" }
+            { "value": "main/typioca", "manager": "scoop" },
+            { "value": "games/heroic-games-launcher", "manager": "scoop" }
         ]
     },
     {
