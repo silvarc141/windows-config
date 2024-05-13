@@ -6,7 +6,9 @@
             { "value": "Git.Git", "manager": "winget" },
             { "value": "main/1password-cli", "manager": "scoop" },
             { "value": "main/rclone", "manager": "scoop" },
-            { "value": "extras/glazewm", "manager": "scoop" }
+            { "value": "extras/glazewm", "manager": "scoop" },
+            { "value": "main/dark", "manager": "scoop" },
+            { "value": "main/innounp", "manager": "scoop" }
         ]
     },
     {
@@ -106,7 +108,8 @@
             { "value": "Valve.Steam", "manager": "winget" },
             { "value": "EpicGames.EpicGamesLauncher", "manager": "winget" },
             { "value": "Battle.net", "manager": "winget" },
-            { "value": "main/typioca", "manager": "scoop" }
+            { "value": "main/typioca", "manager": "scoop" },
+            { "value": "games/heroic-games-launcher", "manager": "scoop" }
         ]
     },
     {

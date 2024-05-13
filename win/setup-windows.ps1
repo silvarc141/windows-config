@@ -22,6 +22,9 @@ Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory 
 # Network: Disable WiFi Sense: Enable: 1, Disable: 0
 #Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\config" "AutoConnectAllowedOEM" 0
 
+# Enable Developer Mode: Enable: 1, Disable: 0
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
+
 Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
 
 # Target language list
@@ -65,6 +68,9 @@ Set-WinHomeLocation -GeoId 244 #United States
 
 # Set timezone
 Set-TimeZone -Name "Central European Standard Time"
+
+# Enable long paths
+Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
 
 Write-Host "Configuring Privacy..." -ForegroundColor "Yellow"
 
