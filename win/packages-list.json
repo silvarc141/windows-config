@@ -44,7 +44,6 @@
     {
         "category": "communication",
         "packages": [
-            { "value": "Discord.Discord", "manager": "winget" },
             { "value": "Readdle.Spark", "manager": "winget" },
             { "value": "Microsoft.Teams", "manager": "winget" }
         ]
@@ -75,7 +74,6 @@
     {
         "category": "dev",
         "packages": [
-            { "value": "Unity.UnityHub", "manager": "winget" },
             { "value": "main/rustup", "manager": "scoop" },
             { "value": "main/neovim", "manager": "scoop" },
             { "value": "extras/neovide", "manager": "scoop" },
@@ -83,6 +81,7 @@
             { "value": "main/vimtutor", "manager": "scoop" },
             { "value": "extras/rider", "manager": "scoop" },
             { "value": "extras/sourcetree", "manager": "scoop" },
+            { "value": "Unity.UnityHub", "manager": "winget" },
             { "value": "Microsoft.DotNet.Framework.DeveloperPack_4", "manager": "winget" },
             { "value": "Microsoft.DotNet.SDK.7", "manager": "winget"}
         ]
@@ -129,6 +128,7 @@
             { "value": "extras/powertoys", "manager": "scoop" },
             { "value": "extras/etcher", "manager": "scoop" },
             { "value": "extras/ventoy", "manager": "scoop" },
+            { "value": "main/adb", "manager": "scoop" },
             { "value": "extras/droidcam", "manager": "scoop" }
         ]
     },
