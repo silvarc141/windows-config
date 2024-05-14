@@ -1,6 +1,3 @@
-$dotfilesRepo = 'https://github.com/silvarc141/dotfiles.git'
-$packagesList = "$PSScriptRoot\packages-list.json"
-
 function Install-ScoopPackage {
     param (
         $name
@@ -11,8 +8,13 @@ function Install-ScoopPackage {
     scoop update $name
 }
 
-Write-Host "`nSetting up Scoop..." -ForegroundColor "Yellow"
+$dotfilesRepo = 'https://github.com/silvarc141/dotfiles.git'
+$packagesList = "$PSScriptRoot\packages-list.json"
 
+Write-Host "`nProcessing user configuration modules..." -ForegroundColor "Yellow"
+Get-ChildItem .\modules\user\ | Foreach-Object {. $_}
+
+Write-Host "`nSetting up Scoop..." -ForegroundColor "Yellow"
 $HoldErrorActionPreference = $ErrorActionPreference
 $ErrorActionPreference = 'SilentlyContinue'
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
