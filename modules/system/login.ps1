@@ -10,4 +10,4 @@ if (!(Test-Path -Path $personalizationKey)) { $null = New-Item -Path $personaliz
 Set-ItemProperty $personalizationKey "NoLockScreen" 1
 
 # Enable Custom Background on the Login / Lock Screen, File Size Limit: 256Kb
-Set-ItemProperty $personalizationKey "LockScreenImage" "$PSScriptRoot\images\black.png"
+Set-ItemProperty $personalizationKey "LockScreenImage" "$PSScriptRoot\..\..\assets\black.png"

@@ -60,7 +60,7 @@ function Run-InstallScriptInContext {
     Get-FileFromUrl "https://github.com/$Account/$Repo/archive/$Branch.zip" $zip
     Get-UnzippedContentFromFile $zip $tempDir
 
-    $fullRunPath = "$tempDir\$Repo-$Branch\win"
+    $fullRunPath = "$tempDir\$Repo-$Branch"
     Push-Location $fullRunPath
     Start-Process powershell.exe -NoNewWindow -Wait -ArgumentList "$fullRunPath\install.ps1"
     Pop-Location
