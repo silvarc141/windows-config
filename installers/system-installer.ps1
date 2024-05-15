@@ -3,8 +3,20 @@ param($ConfigObject)
 # Self-elevate the script if required
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
     if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
-        $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments
-        Start-Process -FilePath PowerShell.exe -Wait -Verb Runas -ArgumentList $CommandLine
+
+        $argument = @(
+            "-File $($MyInvocation.MyCommand.Path)"
+            "-$($PSBoundParameters.Keys)"
+        )
+
+        $args = @{
+            FilePath = 'powershell.exe'
+            Verb = 'RunAs'
+            Wait = $True
+            ArgumentList = $argument
+        }
+
+        Start-Process @args
         Exit
     }
 }
@@ -41,7 +53,7 @@ foreach ($package in $ConfigObject.packages) {
         Write-Host "`nInstalling package: $($package.id)"
         winget install --exact $package.id --silent --accept-package-agreements --source winget
     }
-    else Write-Host $package.manager
+    else {Write-Host $package.manager}
 }
 
 Write-Host "Removing system startup apps..." -ForegroundColor "Yellow"

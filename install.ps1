@@ -1,10 +1,10 @@
 param(
     [string]$Config = 'default',
-    [bool]$InstallSystem = $True,
-    [bool]$InstallUser = $True,
-    [bool]$Reboot = $False,
-    [bool]$RestartExplorer = $True,
-    [bool]$Local = $False,
+    [switch]$BypassSystem,
+    [switch]$BypassUser,
+    [switch]$Reboot,
+    [switch]$RestartExplorer,
+    [switch]$Local,
     [string]$Account = 'silvarc141',
     [string]$Repo = 'windows-config',
     [string]$Branch = 'main'
@@ -86,16 +86,14 @@ if(!(Test-Path $configPath)) { $configPath = $configPathDefault }
 $configObject = Get-Content -Raw -Path $configPath | ConvertFrom-Json
 if($configObject -eq $null) { $configObject = Get-Content -Raw -Path $configPathDefault}
 
-$configObject
-
-if($InstallSystem)
+if(!$BypassSystem)
 {
     Write-Host "Installing system configuration..." -ForegroundColor "Yellow"
     #Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$rootDirectory\installers\system-installer.ps1"
     & "$rootDirectory\installers\system-installer.ps1" $configObject
 }
 
-if($InstallUser)
+if(!$BypassUser)
 {
     Write-Host "Installing user configuration..." -ForegroundColor "Yellow"
     #Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$rootDirectory\installers\user-installer.ps1"
