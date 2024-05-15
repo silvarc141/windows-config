@@ -4,6 +4,7 @@ param(
     [bool]$InstallUser = $True,
     [bool]$Reboot = $False,
     [bool]$RestartExplorer = $True,
+    [bool]$Local = $False,
     [string]$Account = 'silvarc141',
     [string]$Repo = 'windows-config',
     [string]$Branch = 'main'
@@ -53,27 +54,34 @@ function Get-UnzippedContentFromFile {
     }
 }
 
-$tempDir = "$env:TEMP\$Repo"
-$zipFilePath = "$tempDir\$Repo.zip"
-$installersPath = "$tempDir\$Repo-$Branch\installers"
+if($Local)
+{
+    $rootDirectory = $PSScriptRoot
+}
+else
+{
+    $tempDirectory = "$env:TEMP\$Repo"
+    $zipFilePath = "$tempDirectory\$Repo.zip"
+    $rootDirectory = "$tempDirectory\$Repo-$Branch"
 
-if (Test-Path $tempDir) {
-    Write-Host "Removing leftover temporary files..." -ForegroundColor "Yellow"
-    Remove-Item -Path $tempDir -Recurse -Force
+    if (Test-Path $tempDirectory) {
+        Write-Host "Removing leftover temporary files..." -ForegroundColor "Yellow"
+        Remove-Item -Path $tempDirectory -Recurse -Force
+    }
+
+    Write-Host "Creating temporary directory..." -ForegroundColor "Yellow"
+    New-Item -ItemType Directory -Path $tempDirectory -Force | Out-Null
+
+    Write-Host "Downloading repo files..." -ForegroundColor "Yellow"
+    Get-FileFromUrl "https://github.com/$Account/$Repo/archive/$Branch.zip" $zipFilePath
+
+    Write-Host "Unpacking..." -ForegroundColor "Yellow"
+    Get-UnzippedContentFromFile $zipFilePath $tempDirectory
 }
 
-Write-Host "Creating temporary directory..." -ForegroundColor "Yellow"
-New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
-
-Write-Host "Downloading repo files..." -ForegroundColor "Yellow"
-Get-FileFromUrl "https://github.com/$Account/$Repo/archive/$Branch.zip" $zipFilePath
-
-Write-Host "Unpacking..." -ForegroundColor "Yellow"
-Get-UnzippedContentFromFile $zipFilePath $tempDir
-
-$configPathBase = "$PSScriptRoot\configs"
-$configPathDefault = "$configPathBase\default.json"
-$configPath = "$configPathBase\$Config.json"
+$configsDirectory = "$rootDirectory\configs"
+$configPathDefault = "$configsDirectory\default.json"
+$configPath = "$configsDirectory\$Config.json"
 if(!(Test-Path $configPath)) { $configPath = $configPathDefault }
 $configObject = Get-Content -Raw -Path $configPath | ConvertFrom-Json
 if($configObject -eq $null) { $configObject = Get-Content -Raw -Path $configPathDefault}
@@ -81,16 +89,16 @@ if($configObject -eq $null) { $configObject = Get-Content -Raw -Path $configPath
 if($InstallSystem)
 {
     Write-Host "Installing system configuration..." -ForegroundColor "Yellow"
-    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$installersPath\system-installer.ps1"
+    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$rootDirectory\installers\system-installer.ps1"
 }
 
 if($InstallUser)
 {
     Write-Host "Installing user configuration..." -ForegroundColor "Yellow"
-    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$installersPath\user-installer.ps1"
+    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$rootDirectory\installers\user-installer.ps1"
 }
 
 Write-Host "Finalizing..." -ForegroundColor "Yellow"
-Remove-Item -Path $tempDir -Recurse -Force
+Remove-Item -Path $tempDirectory -Recurse -Force
 if($RestartExplorer) { Stop-Process -ProcessName explorer -Force }
 if($Reboot) { shutdown /r /t 0 }
