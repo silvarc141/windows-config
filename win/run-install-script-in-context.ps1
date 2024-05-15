@@ -3,7 +3,7 @@ function Run-InstallScriptInContext {
     param (
         [string]$Account,
         [string]$Repo,
-        [string]$Branch,
+        [string]$Branch
     )
 
     function Get-FileFromUrl {
