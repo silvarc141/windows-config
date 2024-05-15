@@ -68,7 +68,8 @@
             { "value": "main/fzf", "manager": "scoop" },
             { "value": "extras/psfzf", "manager": "scoop" },
             { "value": "main/ripgrep", "manager": "scoop" },
-            { "value": "main/rga", "manager": "scoop" }
+            { "value": "main/rga", "manager": "scoop" },
+            { "value": "main/starship", "manager": "scoop" }
         ]
     },
     {
@@ -78,10 +79,10 @@
             { "value": "main/neovim", "manager": "scoop" },
             { "value": "extras/neovide", "manager": "scoop" },
             { "value": "main/vim", "manager": "scoop" },
-            { "value": "main/vimtutor", "manager": "scoop" },
             { "value": "extras/rider", "manager": "scoop" },
             { "value": "extras/sourcetree", "manager": "scoop" },
             { "value": "Unity.UnityHub", "manager": "winget" },
+            { "value": "JetBrains.dotTrace", "manager": "winget" },
             { "value": "Microsoft.DotNet.Framework.DeveloperPack_4", "manager": "winget" },
             { "value": "Microsoft.DotNet.SDK.7", "manager": "winget"}
         ]
@@ -115,7 +116,6 @@
         "category": "themeing",
         "packages": [
             { "value": "main/neofetch", "manager": "scoop" },
-            { "value": "main/starship", "manager": "scoop" },
             { "value": "extras/micaforeveryone", "manager": "scoop" },
             { "value": "extras/secureuxtheme", "manager": "scoop" },
             { "value": "extras/7tsp", "manager": "scoop" }
@@ -124,7 +124,9 @@
     {
         "category": "other",
         "packages": [
+            { "value": "main/vimtutor", "manager": "scoop" },
             { "value": "Oracle.VirtualBox", "manager": "winget" },
+            { "value": "NordSecurity.NordPass", "manager": "winget" },
             { "value": "extras/powertoys", "manager": "scoop" },
             { "value": "extras/etcher", "manager": "scoop" },
             { "value": "extras/ventoy", "manager": "scoop" },
