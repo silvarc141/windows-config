@@ -28,7 +28,7 @@ else {
 Write-Host "`nProcessing system configuration modules..." -ForegroundColor "Yellow"
 
 # Relative to PSScriptRoot because runas changes the path
-$modulesPath = "$PSScriptRoot\modules\system\"
+$modulesPath = "$PSScriptRoot\..\modules\system\"
 
 Get-ChildItem $modulesPath | ForEach-Object {
     Write-Host "Configuring $([System.IO.Path]::GetFileNameWithoutExtension($_))" -ForegroundColor "Yellow"

@@ -11,9 +11,9 @@ function Install-ScoopPackage {
 }
 
 Write-Host "`nProcessing user configuration modules..." -ForegroundColor "Yellow"
-Get-ChildItem "$PSScriptRoot\modules\user\" | ForEach-Object {
-    Write-Host "Configuring $([System.IO.Path]::GetFileNameWithoutExtension($_))" -ForegroundColor "Yellow"
-    . $_.FullName
+foreach($item in Get-ChildItem "$PSScriptRoot\..\modules\user\"{
+    Write-Host "Configuring $([System.IO.Path]::GetFileNameWithoutExtension($item))" -ForegroundColor "Yellow"
+    . $item.FullName
 }
 
 Write-Host "`nSetting up Scoop..." -ForegroundColor "Yellow"
