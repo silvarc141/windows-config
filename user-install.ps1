@@ -28,10 +28,10 @@ if (![Boolean](Get-Command scoop -ErrorAction SilentlyContinue)) {
     "$(Invoke-RestMethod get.scoop.sh)" | Invoke-Expression
 }
 
-scoop bucket add extras
-scoop bucket add nerd-fonts
-scoop bucket add sysinternals
-scoop bucket add games
+scoop bucket add extras | Out-Null
+scoop bucket add nerd-fonts | Out-Null
+scoop bucket add sysinternals | Out-Null
+scoop bucket add games | Out-Null
 #scoop bucket add DEV-tools https://github.com/anderlli0053/DEV-tools.git
 scoop update
 
