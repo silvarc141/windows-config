@@ -1,4 +1,5 @@
 {
+    "dotfiles":"https://github.com/silvarc141/dotfiles.git",
     "packages": [
         { "id": "AgileBits.1Password", "manager": "winget" },
         { "id": "Git.Git", "manager": "winget" },

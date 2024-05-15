@@ -1,3 +1,5 @@
+param($ConfigObject)
+
 # Self-elevate the script if required
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
     if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
@@ -34,10 +36,7 @@ Get-ChildItem $modulesPath | ForEach-Object {
 }
 
 Write-Host "Installing system packages..." -ForegroundColor "Yellow"
-$packagesList = "$PSScriptRoot\configs\default.json"
-$packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
-
-foreach ($package in $packagesListObject.packages) {
+foreach ($package in $ConfigObject.packages) {
     if ($package.manager -eq 'winget') {
         Write-Host "`nInstalling package: $($package.id)"
         winget install --exact $package.id --silent --accept-package-agreements --source winget

@@ -1,3 +1,5 @@
+param($ConfigObject)
+
 function Install-ScoopPackage {
     param (
         $name
@@ -8,12 +10,8 @@ function Install-ScoopPackage {
     scoop update $name
 }
 
-$dotfilesRepo = 'https://github.com/silvarc141/dotfiles.git'
-$packagesList = "$PSScriptRoot\configs\default.json"
-$modulesPath = "$PSScriptRoot\modules\user\"
-
 Write-Host "`nProcessing user configuration modules..." -ForegroundColor "Yellow"
-Get-ChildItem $modulesPath | ForEach-Object {
+Get-ChildItem "$PSScriptRoot\modules\user\" | ForEach-Object {
     Write-Host "Configuring $([System.IO.Path]::GetFileNameWithoutExtension($_))" -ForegroundColor "Yellow"
     . $_.FullName
 }
@@ -44,15 +42,13 @@ if (![Boolean](Get-Command git -ErrorAction SilentlyContinue)) {
 }
 
 Write-Host "`nInstalling dotfiles..." -ForegroundColor "Yellow"
-chezmoi init $dotfilesRepo --force --keep-going
+chezmoi init $ConfigObject.dotfiles --force --keep-going
 chezmoi update --force --keep-going
 scoop update # remove when dotfiles ignore scoop update date
 
 Write-Host "`nInstalling packages..." -ForegroundColor "Yellow"
 
-$packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
-
-foreach ($package in $packagesListObject.packages) {
+foreach ($package in $ConfigObject.packages) {
     if ($package.manager -eq 'scoop') { Install-ScoopPackage $package.id }
 }
 
