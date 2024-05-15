@@ -1,4 +1,5 @@
-$defaultImagePath = "$PSScriptRoot\..\assets\black.png"
+$defaultImagePath = "$PSScriptRoot\..\..\assets\black.png"
+Write-Host $defaultImagePath
 
 # Set wallpaper
 $setwallpapersrc = @"
