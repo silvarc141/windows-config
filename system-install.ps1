@@ -34,13 +34,13 @@ Get-ChildItem $modulesPath | ForEach-Object {
 }
 
 Write-Host "Installing system packages..." -ForegroundColor "Yellow"
-$packagesList = "$PSScriptRoot\packages-list.json"
+$packagesList = "$PSScriptRoot\configs\default.json"
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 
 foreach ($category in $packagesListObject) {
     foreach ($package in $category.packages) {
         if ($package.manager -eq 'winget') {
-            Write-Host "`nInstalling package: $($package.value)"
+            Write-Host "`nInstalling package: $($package.id)"
             winget install --exact $package.value --silent --accept-package-agreements --source winget
         }
     }

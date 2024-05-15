@@ -9,8 +9,8 @@ function Install-ScoopPackage {
 }
 
 $dotfilesRepo = 'https://github.com/silvarc141/dotfiles.git'
-$packagesList = ".\packages-list.json"
-$modulesPath = ".\modules\user\"
+$packagesList = "$PSScriptRoot\configs\default.json"
+$modulesPath = "$PSScriptRoot\modules\user\"
 
 Write-Host "`nProcessing user configuration modules..." -ForegroundColor "Yellow"
 Get-ChildItem $modulesPath | ForEach-Object {
