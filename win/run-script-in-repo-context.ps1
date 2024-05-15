@@ -5,7 +5,7 @@ function Run-ScriptInRepoContext {
         [string]$Repo,
         [string]$Branch,
         [string]$RunPath,
-        [string]$ScriptName = "install.ps1"
+        [string]$ScriptName = "$PSScriptRoot\install.ps1"
     )
 
     function Get-FileFromUrl {
