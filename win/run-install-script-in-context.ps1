@@ -1,4 +1,4 @@
-function Run-ScriptInRepoContext {
+function Run-InstallScriptInContext {
 
     param (
         [string]$Account,
