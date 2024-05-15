@@ -42,8 +42,9 @@
         ]
     },
     {
-        "category": "communication",
+        "category": "net",
         "packages": [
+            { "value": "tailscale.tailscale", "manager": "winget" },
             { "value": "Readdle.Spark", "manager": "winget" },
             { "value": "Microsoft.Teams", "manager": "winget" }
         ]
@@ -83,6 +84,7 @@
             { "value": "extras/sourcetree", "manager": "scoop" },
             { "value": "Unity.UnityHub", "manager": "winget" },
             { "value": "JetBrains.dotTrace", "manager": "winget" },
+            { "value": "NordSecurity.NordPass", "manager": "winget" },
             { "value": "Microsoft.DotNet.Framework.DeveloperPack_4", "manager": "winget" },
             { "value": "Microsoft.DotNet.SDK.7", "manager": "winget"}
         ]
@@ -103,6 +105,17 @@
         ]
     },
     {
+        "category": "tools",
+        "packages": [
+            { "value": "Oracle.VirtualBox", "manager": "winget" },
+            { "value": "main/adb", "manager": "scoop" },
+            { "value": "extras/powertoys", "manager": "scoop" },
+            { "value": "extras/etcher", "manager": "scoop" },
+            { "value": "extras/ventoy", "manager": "scoop" },
+            { "value": "extras/droidcam", "manager": "scoop" }
+        ]
+    },
+    {
         "category": "games",
         "packages": [
             { "value": "Valve.Steam", "manager": "winget" },
@@ -119,19 +132,6 @@
             { "value": "extras/micaforeveryone", "manager": "scoop" },
             { "value": "extras/secureuxtheme", "manager": "scoop" },
             { "value": "extras/7tsp", "manager": "scoop" }
-        ]
-    },
-    {
-        "category": "other",
-        "packages": [
-            { "value": "main/vimtutor", "manager": "scoop" },
-            { "value": "Oracle.VirtualBox", "manager": "winget" },
-            { "value": "NordSecurity.NordPass", "manager": "winget" },
-            { "value": "extras/powertoys", "manager": "scoop" },
-            { "value": "extras/etcher", "manager": "scoop" },
-            { "value": "extras/ventoy", "manager": "scoop" },
-            { "value": "main/adb", "manager": "scoop" },
-            { "value": "extras/droidcam", "manager": "scoop" }
         ]
     },
     {
