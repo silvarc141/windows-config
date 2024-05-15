@@ -1,4 +1,4 @@
-param($ConfigObject)
+param($ConfigPath)
 
 function Install-ScoopPackage {
     param (
@@ -9,6 +9,8 @@ function Install-ScoopPackage {
     scoop install $name
     scoop update $name
 }
+
+$configObject = Get-Content -Raw -Path $ConfigPath | ConvertFrom-Json
 
 Write-Host "Processing user configuration modules..." -ForegroundColor "Yellow"
 foreach($item in Get-ChildItem "$PSScriptRoot\..\modules\user\") {
@@ -42,13 +44,13 @@ if (![Boolean](Get-Command git -ErrorAction SilentlyContinue)) {
 }
 
 Write-Host "Installing dotfiles..." -ForegroundColor "Yellow"
-chezmoi init $ConfigObject.dotfiles --force --keep-going
+chezmoi init $configObject.dotfiles --force --keep-going
 chezmoi update --force --keep-going
 scoop update # remove when dotfiles ignore scoop update date
 
 Write-Host "Installing packages..." -ForegroundColor "Yellow"
 
-foreach ($package in $ConfigObject.packages) {
+foreach ($package in $configObject.packages) {
     if ($package.manager -eq 'scoop') { Install-ScoopPackage $package.id }
 }
 

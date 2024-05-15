@@ -89,15 +89,13 @@ if($configObject -eq $null) { $configObject = Get-Content -Raw -Path $configPath
 if(!$BypassSystem)
 {
     Write-Host "Installing system configuration..." -ForegroundColor "Yellow"
-    #Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$rootDirectory\installers\system-installer.ps1"
-    & "$rootDirectory\installers\system-installer.ps1" $configObject
+    & "$rootDirectory\installers\system-installer.ps1" $configPath
 }
 
 if(!$BypassUser)
 {
     Write-Host "Installing user configuration..." -ForegroundColor "Yellow"
-    #Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$rootDirectory\installers\user-installer.ps1"
-    & "$rootDirectory\installers\user-installer.ps1" $configObject
+    & "$rootDirectory\installers\user-installer.ps1" $configPath
 }
 
 Write-Host "Finalizing..." -ForegroundColor "Yellow"

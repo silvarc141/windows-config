@@ -1,25 +1,20 @@
-param($ConfigObject)
+param($ConfigPath)
 
-# Self-elevate the script if required
+function Pass-Parameters {
+    Param ([hashtable]$NamedParameters)
+    return ($NamedParameters.GetEnumerator()|%{"-$($_.Key) `"$($_.Value)`""}) -join " "
+}
+
+# Self-elevate the script if required while passing parameters
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
     if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
-
-        $argument = @(
-            "-File $($MyInvocation.MyCommand.Path)"
-            "-$($PSBoundParameters.Keys)"
-        )
-
-        $args = @{
-            FilePath = 'powershell.exe'
-            Verb = 'RunAs'
-            Wait = $True
-            ArgumentList = $argument
-        }
-
-        Start-Process @args
+        $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + (Pass-Parameters $MyInvocation.BoundParameters) + " " + $MyInvocation.UnboundArguments
+        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine -Wait
         Exit
     }
 }
+
+$configObject = Get-Content -Raw -Path $ConfigPath | ConvertFrom-Json
 
 Write-Host "Updating winget..." -ForegroundColor "Yellow"
 $results = (winget --version) | Select-String -Pattern 'v(\d)\.(\d).*'
@@ -48,12 +43,11 @@ Get-ChildItem $modulesPath | ForEach-Object {
 }
 
 Write-Host "Installing system packages..." -ForegroundColor "Yellow"
-foreach ($package in $ConfigObject.packages) {
+foreach ($package in $configObject.packages) {
     if ($package.manager -eq 'winget') {
         Write-Host "`nInstalling package: $($package.id)"
         winget install --exact $package.id --silent --accept-package-agreements --source winget
     }
-    else {Write-Host $package.manager}
 }
 
 Write-Host "Removing system startup apps..." -ForegroundColor "Yellow"
@@ -66,5 +60,3 @@ $32bit, $32bitRunOnce, $64bit, $64bitRunOnce |
 ForEach-Object { @{Path = $_; Item = Get-Item -Path $_ } } |
 Where-Object { $_.Item.ValueCount -ne 0 } |
 ForEach-Object { Remove-ItemProperty -Path $_.Path -Name $_.Item.Property }
-
-Start-Sleep -Seconds 50
