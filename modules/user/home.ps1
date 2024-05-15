@@ -17,10 +17,12 @@ $notWorthRemoving = @(
 'Contacts',
 'Searches',
 'Tracing'
+'dotTraceSnapshots'
 )
 
 $toRemove = @(
 'OneDrive'
+'Links'
 )
 
 # Ensure correctly named folders
@@ -28,11 +30,11 @@ foreach ($fileName in $toEnsure) {
     if (Test-Path $HOME\$fileName) {
         $item = Get-Item -Force $HOME\$fileName
 
-        # Not hidden
+        # Unhide
         $item.Attributes = $item.Attributes -band (-bnot [System.IO.FileAttributes]::Hidden)
 
         # Correct case
-        if ($item.Name -cne $fileName) {Rename-Item $item $fileName}
+        if ($item.Name -cne $fileName) { Rename-Item $item $fileName }
     }
     else {
         New-Item -ItemType Directory $HOME\$fileName | Out-Null
