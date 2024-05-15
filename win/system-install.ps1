@@ -24,14 +24,17 @@ else {
 }
 
 Write-Host "`nProcessing system configuration modules..." -ForegroundColor "Yellow"
-$modulesPath = ".\modules\system\"
+
+# Relative to PSScriptRoot because runas changes the path
+$modulesPath = "$PSScriptRoot\modules\system\"
+
 Get-ChildItem $modulesPath | ForEach-Object {
     Write-Host "Configuring $([System.IO.Path]::GetFileNameWithoutExtension($_))" -ForegroundColor "Yellow"
     . $_.FullName
 }
 
 Write-Host "Installing system packages..." -ForegroundColor "Yellow"
-$packagesList = .\packages-list.json
+$packagesList = "$PSScriptRoot\packages-list.json"
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 
 foreach ($category in $packagesListObject) {
