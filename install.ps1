@@ -55,6 +55,7 @@ function Get-UnzippedContentFromFile {
 
 $tempDir = "$env:TEMP\$Repo"
 $zipFilePath = "$tempDir\$Repo.zip"
+$installersPath = "$tempDir\$Repo-$Branch\installers"
 
 if (Test-Path $tempDir) {
     Write-Host "Removing leftover temporary files..." -ForegroundColor "Yellow"
@@ -80,13 +81,13 @@ if($configObject -eq $null) { $configObject = Get-Content -Raw -Path $configPath
 if($InstallSystem)
 {
     Write-Host "Installing system configuration..." -ForegroundColor "Yellow"
-    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$PSScriptRoot\system-install.ps1"
+    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$installersPath\system-installer.ps1"
 }
 
 if($InstallUser)
 {
     Write-Host "Installing user configuration..." -ForegroundColor "Yellow"
-    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$PSScriptRoot\user-install.ps1"
+    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$installersPath\user-installer.ps1"
 }
 
 Write-Host "Finalizing..." -ForegroundColor "Yellow"
