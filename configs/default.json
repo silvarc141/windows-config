@@ -1,145 +1,94 @@
-[
-    {
-        "category": "core",
-        "packages": [
-            { "id": "AgileBits.1Password", "manager": "winget" },
-            { "id": "Git.Git", "manager": "winget" },
-            { "id": "main/1password-cli", "manager": "scoop" },
-            { "id": "main/rclone", "manager": "scoop" },
-            { "id": "extras/glazewm", "manager": "scoop" },
-            { "id": "main/dark", "manager": "scoop" },
-            { "id": "main/innounp", "manager": "scoop" }
-        ]
-    },
-    {
-        "category": "dependencies",
-        "packages": [
-            { "id": "Microsoft.DotNet.SDK.3_1", "manager": "winget" }
-        ]
-    },
-    {
-        "category": "fonts",
-        "packages": [
-            { "id": "nerd-fonts/codenewroman-nf", "manager": "scoop" },
-            { "id": "nerd-fonts/cascadiacode-nf-mono", "manager": "scoop" },
-            { "id": "nerd-fonts/cascadiacode-nf", "manager": "scoop" },
-            { "id": "nerd-fonts/iosevka-nf", "manager": "scoop" },
-            { "id": "nerd-fonts/JetbrainsMono-nf-mono", "manager": "scoop" }
-        ]
-    },
-    {
-        "category": "basic",
-        "packages": [
-            { "id": "main/7zip", "manager": "scoop" },
-            { "id": "extras/alacritty", "manager": "scoop" },
-            { "id": "extras/firefox", "manager": "scoop" },
-            { "id": "extras/vscodium", "manager": "scoop" },
-            { "id": "extras/vlc", "manager": "scoop" },
-            { "id": "extras/f3d", "manager": "scoop" },
-            { "id": "extras/honeyview", "manager": "scoop" },
-            { "id": "extras/libreoffice", "manager": "scoop" },
-            { "id": "extras/sharex", "manager": "scoop" }
-        ]
-    },
-    {
-        "category": "net",
-        "packages": [
-            { "id": "tailscale.tailscale", "manager": "winget" },
-            { "id": "Readdle.Spark", "manager": "winget" },
-            { "id": "Microsoft.Teams", "manager": "winget" }
-        ]
-    },
-    {
-        "category": "workflow",
-        "packages": [
-            { "id": "extras/autohotkey", "manager": "scoop" },
-            { "id": "extras/glazewm", "manager": "scoop" },
-            { "id": "extras/everything", "manager": "scoop" },
-            { "id": "extras/obsidian", "manager": "scoop" },
-            { "id": "extras/keypirinha", "manager": "scoop" }
-        ]
-    },
-    {
-        "category": "shell",
-        "packages": [
-            { "id": "main/pwsh", "manager": "scoop" },
-            { "id": "main/gh", "manager": "scoop" },
-            { "id": "extras/posh-git", "manager": "scoop" },
-            { "id": "main/zoxide", "manager": "scoop" },
-            { "id": "main/fzf", "manager": "scoop" },
-            { "id": "extras/psfzf", "manager": "scoop" },
-            { "id": "main/ripgrep", "manager": "scoop" },
-            { "id": "main/rga", "manager": "scoop" },
-            { "id": "main/starship", "manager": "scoop" }
-        ]
-    },
-    {
-        "category": "dev",
-        "packages": [
-            { "id": "main/rustup", "manager": "scoop" },
-            { "id": "main/neovim", "manager": "scoop" },
-            { "id": "extras/neovide", "manager": "scoop" },
-            { "id": "main/vim", "manager": "scoop" },
-            { "id": "extras/rider", "manager": "scoop" },
-            { "id": "extras/sourcetree", "manager": "scoop" },
-            { "id": "Unity.UnityHub", "manager": "winget" },
-            { "id": "JetBrains.dotTrace", "manager": "winget" },
-            { "id": "NordSecurity.NordPass", "manager": "winget" },
-            { "id": "Microsoft.DotNet.Framework.DeveloperPack_4", "manager": "winget" },
-            { "id": "Microsoft.DotNet.SDK.7", "manager": "winget"}
-        ]
-    },
-    {
-        "category": "media",
-        "packages": [
-            { "id": "main/ffmpeg", "manager": "scoop" },
-            { "id": "main/yt-dlp", "manager": "scoop" },
-            { "id": "extras/reaper", "manager": "scoop" },
-            { "id": "extras/handbrake", "manager": "scoop" },
-            { "id": "extras/losslesscut", "manager": "scoop" },
-            { "id": "extras/gimp", "manager": "scoop" },
-            { "id": "extras/krita", "manager": "scoop" },
-            { "id": "extras/blender", "manager": "scoop" },
-            { "id": "extras/inkscape", "manager": "scoop" },
-            { "id": "extras/obs-studio", "manager": "scoop" }
-        ]
-    },
-    {
-        "category": "tools",
-        "packages": [
-            { "id": "Oracle.VirtualBox", "manager": "winget" },
-            { "id": "main/adb", "manager": "scoop" },
-            { "id": "extras/powertoys", "manager": "scoop" },
-            { "id": "extras/etcher", "manager": "scoop" },
-            { "id": "extras/ventoy", "manager": "scoop" },
-            { "id": "extras/droidcam", "manager": "scoop" }
-        ]
-    },
-    {
-        "category": "games",
-        "packages": [
-            { "id": "Valve.Steam", "manager": "winget" },
-            { "id": "EpicGames.EpicGamesLauncher", "manager": "winget" },
-            { "id": "Battle.net", "manager": "winget" },
-            { "id": "main/typioca", "manager": "scoop" },
-            { "id": "games/heroic-games-launcher", "manager": "scoop" }
-        ]
-    },
-    {
-        "category": "themeing",
-        "packages": [
-            { "id": "main/neofetch", "manager": "scoop" },
-            { "id": "extras/micaforeveryone", "manager": "scoop" },
-            { "id": "extras/secureuxtheme", "manager": "scoop" },
-            { "id": "extras/7tsp", "manager": "scoop" }
-        ]
-    },
-    {
-        "category": "hardware specific",
-        "packages": [
-            { "id": "TechPowerUp.NVCleanstall", "manager": "winget" },
-            { "id": "9WZDNCRFHWLH", "manager": "winget" },
-            { "id": "extras/logitech-omm", "manager": "scoop" }
-        ]
-    }
-]
+{
+    "packages": [
+        { "id": "AgileBits.1Password", "manager": "winget" },
+        { "id": "Git.Git", "manager": "winget" },
+        { "id": "main/1password-cli", "manager": "scoop" },
+        { "id": "main/rclone", "manager": "scoop" },
+        { "id": "extras/glazewm", "manager": "scoop" },
+        { "id": "main/dark", "manager": "scoop" },
+        { "id": "main/innounp", "manager": "scoop" },
+
+        { "id": "Microsoft.DotNet.SDK.3_1", "manager": "winget" },
+
+        { "id": "nerd-fonts/codenewroman-nf", "manager": "scoop" },
+        { "id": "nerd-fonts/cascadiacode-nf-mono", "manager": "scoop" },
+        { "id": "nerd-fonts/cascadiacode-nf", "manager": "scoop" },
+        { "id": "nerd-fonts/iosevka-nf", "manager": "scoop" },
+        { "id": "nerd-fonts/JetbrainsMono-nf-mono", "manager": "scoop" },
+
+        { "id": "main/7zip", "manager": "scoop" },
+        { "id": "extras/alacritty", "manager": "scoop" },
+        { "id": "extras/firefox", "manager": "scoop" },
+        { "id": "extras/vscodium", "manager": "scoop" },
+        { "id": "extras/vlc", "manager": "scoop" },
+        { "id": "extras/f3d", "manager": "scoop" },
+        { "id": "extras/honeyview", "manager": "scoop" },
+        { "id": "extras/libreoffice", "manager": "scoop" },
+        { "id": "extras/sharex", "manager": "scoop" },
+
+        { "id": "tailscale.tailscale", "manager": "winget" },
+        { "id": "Readdle.Spark", "manager": "winget" },
+        { "id": "Microsoft.Teams", "manager": "winget" },
+
+        { "id": "extras/autohotkey", "manager": "scoop" },
+        { "id": "extras/glazewm", "manager": "scoop" },
+        { "id": "extras/everything", "manager": "scoop" },
+        { "id": "extras/obsidian", "manager": "scoop" },
+        { "id": "extras/keypirinha", "manager": "scoop" },
+
+        { "id": "main/pwsh", "manager": "scoop" },
+        { "id": "main/gh", "manager": "scoop" },
+        { "id": "extras/posh-git", "manager": "scoop" },
+        { "id": "main/zoxide", "manager": "scoop" },
+        { "id": "main/fzf", "manager": "scoop" },
+        { "id": "extras/psfzf", "manager": "scoop" },
+        { "id": "main/ripgrep", "manager": "scoop" },
+        { "id": "main/rga", "manager": "scoop" },
+        { "id": "main/starship", "manager": "scoop" },
+
+        { "id": "main/rustup", "manager": "scoop" },
+        { "id": "main/neovim", "manager": "scoop" },
+        { "id": "extras/neovide", "manager": "scoop" },
+        { "id": "main/vim", "manager": "scoop" },
+        { "id": "extras/rider", "manager": "scoop" },
+        { "id": "extras/sourcetree", "manager": "scoop" },
+        { "id": "Unity.UnityHub", "manager": "winget" },
+        { "id": "JetBrains.dotTrace", "manager": "winget" },
+        { "id": "NordSecurity.NordPass", "manager": "winget" },
+        { "id": "Microsoft.DotNet.Framework.DeveloperPack_4", "manager": "winget" },
+        { "id": "Microsoft.DotNet.SDK.7", "manager": "winget"},
+
+        { "id": "main/ffmpeg", "manager": "scoop" },
+        { "id": "main/yt-dlp", "manager": "scoop" },
+        { "id": "extras/reaper", "manager": "scoop" },
+        { "id": "extras/handbrake", "manager": "scoop" },
+        { "id": "extras/losslesscut", "manager": "scoop" },
+        { "id": "extras/gimp", "manager": "scoop" },
+        { "id": "extras/krita", "manager": "scoop" },
+        { "id": "extras/blender", "manager": "scoop" },
+        { "id": "extras/inkscape", "manager": "scoop" },
+        { "id": "extras/obs-studio", "manager": "scoop" },
+
+        { "id": "Oracle.VirtualBox", "manager": "winget" },
+        { "id": "main/adb", "manager": "scoop" },
+        { "id": "extras/powertoys", "manager": "scoop" },
+        { "id": "extras/etcher", "manager": "scoop" },
+        { "id": "extras/ventoy", "manager": "scoop" },
+        { "id": "extras/droidcam", "manager": "scoop" },
+
+        { "id": "Valve.Steam", "manager": "winget" },
+        { "id": "EpicGames.EpicGamesLauncher", "manager": "winget" },
+        { "id": "Battle.net", "manager": "winget" },
+        { "id": "main/typioca", "manager": "scoop" },
+        { "id": "games/heroic-games-launcher", "manager": "scoop" },
+
+        { "id": "TechPowerUp.NVCleanstall", "manager": "winget" },
+        { "id": "9WZDNCRFHWLH", "manager": "winget" },
+        { "id": "extras/logitech-omm", "manager": "scoop" },
+
+        { "id": "main/neofetch", "manager": "scoop" },
+        { "id": "extras/micaforeveryone", "manager": "scoop" },
+        { "id": "extras/secureuxtheme", "manager": "scoop" },
+        { "id": "extras/7tsp", "manager": "scoop" }
+    ]
+}

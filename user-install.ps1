@@ -46,19 +46,14 @@ if (![Boolean](Get-Command git -ErrorAction SilentlyContinue)) {
 Write-Host "`nInstalling dotfiles..." -ForegroundColor "Yellow"
 chezmoi init $dotfilesRepo --force --keep-going
 chezmoi update --force --keep-going
-
 scoop update # remove when dotfiles ignore scoop update date
 
 Write-Host "`nInstalling packages..." -ForegroundColor "Yellow"
 
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 
-foreach ($category in $packagesListObject) {
-    foreach ($package in $category.packages) {
-        if ($package.manager -eq 'scoop') {
-            Install-ScoopPackage $package.value
-        }
-    }
+foreach ($package in $packagesListObject.packages) {
+    if ($package.manager -eq 'scoop') { Install-ScoopPackage $package.id }
 }
 
 Write-Host "`nReapplying dotfiles after installation..." -ForegroundColor "Yellow"
