@@ -10,13 +10,13 @@ function Install-ScoopPackage {
     scoop update $name
 }
 
-Write-Host "`nProcessing user configuration modules..." -ForegroundColor "Yellow"
+Write-Host "Processing user configuration modules..." -ForegroundColor "Yellow"
 foreach($item in Get-ChildItem "$PSScriptRoot\..\modules\user\") {
-    Write-Host "Configuring $([System.IO.Path]::GetFileNameWithoutExtension($item))" -ForegroundColor "Yellow"
+    Write-Host "Configuring user $([System.IO.Path]::GetFileNameWithoutExtension($item))" -ForegroundColor "Yellow"
     . $item.FullName
 }
 
-Write-Host "`nSetting up Scoop..." -ForegroundColor "Yellow"
+Write-Host "Setting up Scoop..." -ForegroundColor "Yellow"
 $HoldErrorActionPreference = $ErrorActionPreference
 $ErrorActionPreference = 'SilentlyContinue'
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -33,7 +33,7 @@ scoop bucket add games | Out-Null
 #scoop bucket add DEV-tools https://github.com/anderlli0053/DEV-tools.git
 scoop update
 
-Write-Host "`nInstalling installation dependencies..." -ForegroundColor "Yellow"
+Write-Host "Installing installation dependencies..." -ForegroundColor "Yellow"
 
 @("main/aria2", "main/chezmoi") | ForEach-Object { Install-ScoopPackage $_ }
 
@@ -41,21 +41,21 @@ if (![Boolean](Get-Command git -ErrorAction SilentlyContinue)) {
     Install-ScoopPackage "main/git"
 }
 
-Write-Host "`nInstalling dotfiles..." -ForegroundColor "Yellow"
+Write-Host "Installing dotfiles..." -ForegroundColor "Yellow"
 chezmoi init $ConfigObject.dotfiles --force --keep-going
 chezmoi update --force --keep-going
 scoop update # remove when dotfiles ignore scoop update date
 
-Write-Host "`nInstalling packages..." -ForegroundColor "Yellow"
+Write-Host "Installing packages..." -ForegroundColor "Yellow"
 
 foreach ($package in $ConfigObject.packages) {
     if ($package.manager -eq 'scoop') { Install-ScoopPackage $package.id }
 }
 
-Write-Host "`nReapplying dotfiles after installation..." -ForegroundColor "Yellow"
+Write-Host "Reapplying dotfiles after installation..." -ForegroundColor "Yellow"
 chezmoi update --force --keep-going
 
-Write-Host "`nRemoving user startup apps..." -ForegroundColor "Yellow"
+Write-Host "Removing user startup apps..." -ForegroundColor "Yellow"
 ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Run",
 "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnce") |
 ForEach-Object { @{Path = $_; Item = Get-Item -Path $_ } } |

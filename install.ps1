@@ -86,19 +86,23 @@ if(!(Test-Path $configPath)) { $configPath = $configPathDefault }
 $configObject = Get-Content -Raw -Path $configPath | ConvertFrom-Json
 if($configObject -eq $null) { $configObject = Get-Content -Raw -Path $configPathDefault}
 
+$configObject
+
 if($InstallSystem)
 {
     Write-Host "Installing system configuration..." -ForegroundColor "Yellow"
-    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$rootDirectory\installers\system-installer.ps1"
+    #Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$rootDirectory\installers\system-installer.ps1"
+    & "$rootDirectory\installers\system-installer.ps1" $configObject
 }
 
 if($InstallUser)
 {
     Write-Host "Installing user configuration..." -ForegroundColor "Yellow"
-    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$rootDirectory\installers\user-installer.ps1"
+    #Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$rootDirectory\installers\user-installer.ps1"
+    & "$rootDirectory\installers\user-installer.ps1" $configObject
 }
 
 Write-Host "Finalizing..." -ForegroundColor "Yellow"
-Remove-Item -Path $tempDirectory -Recurse -Force
+if(!$Local) { Remove-Item -Path $tempDirectory -Recurse -Force }
 if($RestartExplorer) { Stop-Process -ProcessName explorer -Force }
 if($Reboot) { shutdown /r /t 0 }
