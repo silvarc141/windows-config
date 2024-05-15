@@ -66,7 +66,7 @@ Get-UnzippedContentFromFile $zip $tempDir
 $fullRunPath = "$tempDir\$Repo-$Branch"
 Push-Location $fullRunPath
 $command = "$fullRunPath\install.ps1 -Config $Config -InstallSystem $InstallSystem -InstallUser $InstallUser -Reboot $Reboot -RestartExplorer $RestartExplorer"
-Start-Process powershell.exe -NoNewWindow -Wait -ArgumentList "`"$command`""
+Start-Process powershell.exe -NoNewWindow -Wait -ArgumentList $command
 Pop-Location
 
 Write-Host "Removing repo files..." -ForegroundColor "Yellow"
