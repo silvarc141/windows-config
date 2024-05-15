@@ -1,6 +1,13 @@
-$Account = 'silvarc141'
-$Repo = 'windows-config'
-$Branch = 'main'
+param(
+    [string]$Config = 'default',
+    [bool]$InstallSystem = $True,
+    [bool]$InstallUser = $True,
+    [bool]$Reboot = $False,
+    [bool]$RestartExplorer = $True,
+    [string]$Account = 'silvarc141',
+    [string]$Repo = 'windows-config',
+    [string]$Branch = 'main'
+)
 
 function Get-FileFromUrl {
     param (
@@ -58,7 +65,8 @@ Get-UnzippedContentFromFile $zip $tempDir
 
 $fullRunPath = "$tempDir\$Repo-$Branch"
 Push-Location $fullRunPath
-Start-Process powershell.exe -NoNewWindow -Wait -ArgumentList "$fullRunPath\install.ps1"
+$command = "$fullRunPath\install.ps1 -Config $Config -InstallSystem $InstallSystem -InstallUser $InstallUser -Reboot $Reboot -RestartExplorer $RestartExplorer"
+Start-Process powershell.exe -NoNewWindow -Wait -ArgumentList "`"$command`""
 Pop-Location
 
 Write-Host "Removing repo files..." -ForegroundColor "Yellow"
