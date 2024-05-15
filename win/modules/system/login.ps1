@@ -1,9 +1,8 @@
-# Sound: Disable Startup Sound: Enable: 0, Disable: 1
+# Disable Startup Sound: Enable: 0, Disable: 1
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" "DisableStartupSound" 1
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" "DisableStartupSound" 1
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\EditionOverrides" "UserSetting_DisableStartupSound" 1
 
-$defaultImagePath =
 $personalizationKey = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization'
 if (!(Test-Path -Path $personalizationKey)) { $null = New-Item -Path $personalizationKey }
 

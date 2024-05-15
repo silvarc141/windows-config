@@ -9,10 +9,14 @@ function Install-ScoopPackage {
 }
 
 $dotfilesRepo = 'https://github.com/silvarc141/dotfiles.git'
-$packagesList = "$PSScriptRoot\packages-list.json"
+$packagesList = ".\packages-list.json"
+$modulesPath = ".\modules\user\"
 
 Write-Host "`nProcessing user configuration modules..." -ForegroundColor "Yellow"
-Get-ChildItem .\modules\user\ | Foreach-Object {. $_}
+Get-ChildItem $modulesPath | ForEach-Object {
+    Write-Host "Configuring $([System.IO.Path]::GetFileNameWithoutExtension($_))" -ForegroundColor "Yellow"
+    . $_.FullName
+}
 
 Write-Host "`nSetting up Scoop..." -ForegroundColor "Yellow"
 $HoldErrorActionPreference = $ErrorActionPreference

@@ -12,3 +12,12 @@ Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataC
 
 # General: Disable SmartGlass over BlueTooth: Enable: 1, Disable: 0
 #Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\SmartGlass" "BluetoothPolicy" 0
+
+# Start Menu: Disable search entries: Enable: 0, Disable: 1
+if (!(Test-Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer")) { New-Item -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Type Folder | Out-Null }
+Set-ItemProperty "HKCU:\Software\Policies\Microsoft\Windows\Explorer" "DisableSearchBoxSuggestions" 1
+
+# Copilot: Enable: 0, Disable: 1
+$copilotKey = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot"
+if (!(Test-Path $copilotKey)) { New-Item -Path $copilotKey -Type Folder | Out-Null }
+Set-ItemProperty $copilotKey "TurnOffWindowsCopilot" 1

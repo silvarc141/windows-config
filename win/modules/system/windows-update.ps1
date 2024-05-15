@@ -1,5 +1,3 @@
-Write-Host "Configuring Windows Update..." -ForegroundColor "Yellow"
-
 # Disable automatic reboot after install: Enable: 1, Disable: 0
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" "IsExpedited" 0
 

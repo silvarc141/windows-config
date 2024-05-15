@@ -1,5 +1,3 @@
-Write-Host "Configuring Locale..." -ForegroundColor "Yellow"
-
 # Target language list
 $languages = @("en-US", "pl-PL")
 

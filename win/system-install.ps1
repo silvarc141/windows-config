@@ -23,11 +23,15 @@ else {
     winget upgrade winget --silent --accept-package-agreements --accept-source-agreements
 }
 
-Write-Host "Processing system configuration modules..." -ForegroundColor "Yellow"
-Get-ChildItem .\modules\system\ | Foreach-Object {. $_}
+Write-Host "`nProcessing system configuration modules..." -ForegroundColor "Yellow"
+$modulesPath = ".\modules\system\"
+Get-ChildItem $modulesPath | ForEach-Object {
+    Write-Host "Configuring $([System.IO.Path]::GetFileNameWithoutExtension($_))" -ForegroundColor "Yellow"
+    . $_.FullName
+}
 
 Write-Host "Installing system packages..." -ForegroundColor "Yellow"
-$packagesList = "$PSScriptRoot\packages-list.json"
+$packagesList = .\packages-list.json
 $packagesListObject = Get-Content -Raw -Path $packagesList | ConvertFrom-Json
 
 foreach ($category in $packagesListObject) {

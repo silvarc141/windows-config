@@ -1,5 +1,3 @@
-Write-Host "Configuring Privacy..." -ForegroundColor "Yellow"
-
 # General: Don't let apps use advertising ID for experiences across apps: Allow: 1, Disallow: 0
 if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" -Type Folder | Out-Null }
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled" 0
@@ -34,18 +32,9 @@ Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliver
 # Start Menu: Disable suggested content: Enable: 1, Disable: 0
 #Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" "SubscribedContent-338388Enabled" 0
 
-# Start Menu: Disable search entries: Enable: 0, Disable: 1
-if (!(Test-Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer")) { New-Item -Path "HKCU:\Software\Policies\Microsoft\Windows\Explorer" -Type Folder | Out-Null }
-Set-ItemProperty "HKCU:\Software\Policies\Microsoft\Windows\Explorer" "DisableSearchBoxSuggestions" 1
-
 # Camera: Don't let apps use camera: Allow, Deny
 if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam" -Type Folder | Out-Null }
 Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam" "Value" "Allow"
-
-# Copilot: Enable: 0, Disable: 1
-$copilotKey = "HKCU:\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot"
-if (!(Test-Path $copilotKey)) { New-Item -Path $copilotKey -Type Folder | Out-Null }
-Set-ItemProperty $copilotKey "TurnOffWindowsCopilot" 1
 
 # Microphone: Don't let apps use microphone: Allow, Deny
 if (!(Test-Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone")) { New-Item -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\microphone" -Type Folder | Out-Null }

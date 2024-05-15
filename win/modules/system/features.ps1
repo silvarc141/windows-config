@@ -1,5 +1,3 @@
-Write-Host "Configuring Windows features and capabilities" -ForegroundColor "Yellow"
-
 # Enable Developer Mode: Enable: 1, Disable: 0
 Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" "AllowDevelopmentWithoutDevLicense" 1
 

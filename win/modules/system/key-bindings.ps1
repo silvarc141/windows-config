@@ -1,9 +1,4 @@
-# Rebind keys
-
-if (!(Test-Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout"))
-{
-    New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" | Out-Null
-}
+if (!(Test-Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout")) { New-Item -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Keyboard Layout" | Out-Null }
 
 $binds = @(0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0, # header
 0x2,0x0,0x0,0x0, # how many entries including null entry
