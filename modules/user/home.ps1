@@ -3,13 +3,14 @@ $toEnsure = @(
 'downloads',
 'software',
 'sync',
-'desktop',
+'workspace',
 'pictures',
 'videos',
 'music'
 )
 
 $notWorthRemoving = @(
+'Desktop',
 'Documents',
 'Saved Games',
 'Favorites',
@@ -22,9 +23,9 @@ $toRemove = @(
 'OneDrive'
 )
 
+# Ensure correctly named folders
 foreach ($fileName in $toEnsure) {
-    if (Test-Path $HOME\$fileName)
-    {
+    if (Test-Path $HOME\$fileName) {
         $item = Get-Item -Force $HOME\$fileName
 
         # Not hidden
@@ -33,25 +34,27 @@ foreach ($fileName in $toEnsure) {
         # Correct case
         if ($item.Name -cne $fileName) {Rename-Item $item $fileName}
     }
-    else
-    {
-        New-Item -ItemType Directory $HOME\$fileName
+    else {
+        New-Item -ItemType Directory $HOME\$fileName | Out-Null
     }
 }
 
-foreach($fileName in $notWorthRemoving)
-{
-    if (Test-Path $HOME\$fileName)
-    {
+# Remove unneeded folders
+foreach($fileName in $toRemove) {
+    if (Test-Path $HOME\$fileName) {
+        Get-Item -Force $HOME\$fileName | ForEach-Object { Remove-Item -Force $_ }
+    }
+}
+
+# Hide folders that are unneeded but problematic to remove
+foreach($fileName in $notWorthRemoving) {
+    if (Test-Path $HOME\$fileName) {
         $item = Get-Item -Force $HOME\$fileName
         $item.Attributes = $item.Attributes -bor [System.IO.FileAttributes]::Hidden
     }
 }
 
-foreach($fileName in $toRemove)
-{
-    if (Test-Path $HOME\$fileName)
-    {
-        Get-Item -Force $HOME\$fileName | ForEach-Object { Remove-Item -Force $_ }
-    }
+# Hide dotfiles
+foreach ($item in Get-ChildItem -Path $HOME | Where-Object { $_.Name -match '[\._].*'}) {
+    $item.Attributes = $item.Attributes -bor [System.IO.FileAttributes]::Hidden
 }
