@@ -4,7 +4,8 @@ function Run-ScriptInRepoContext {
         [string]$Account,
         [string]$Repo,
         [string]$Branch,
-        [string]$RunPath
+        [string]$RunPath,
+        [string]$ScriptName = "install.ps1"
     )
 
     function Get-FileFromUrl {
@@ -62,7 +63,7 @@ function Run-ScriptInRepoContext {
     Get-UnzippedContentFromFile $zip $tempDir
 
     Push-Location "$tempDir\$Repo-$Branch\$RunPath"
-    Start-Process powershell.exe -NoNewWindow -Wait -ArgumentList ".\install-all.ps1"
+    Start-Process powershell.exe -NoNewWindow -Wait -ArgumentList $ScriptName
     Pop-Location
 
     Write-Host "Removing repo files..." -ForegroundColor "Yellow"
