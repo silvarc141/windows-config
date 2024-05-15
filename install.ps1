@@ -80,13 +80,13 @@ if($configObject -eq $null) { $configObject = Get-Content -Raw -Path $configPath
 if($InstallSystem)
 {
     Write-Host "Installing system configuration..." -ForegroundColor "Yellow"
-    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList .\system-install.ps1
+    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$PSScriptRoot\system-install.ps1"
 }
 
 if($InstallUser)
 {
     Write-Host "Installing user configuration..." -ForegroundColor "Yellow"
-    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList .\user-install.ps1
+    Start-Process powershell.exe -Wait -NoNewWindow -ArgumentList "$PSScriptRoot\user-install.ps1"
 }
 
 Write-Host "Finalizing..." -ForegroundColor "Yellow"
