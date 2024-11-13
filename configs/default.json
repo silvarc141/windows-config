@@ -1,9 +1,7 @@
 {
     "dotfiles":"https://github.com/silvarc141/dotfiles.git",
     "packages": [
-        { "id": "AgileBits.1Password", "manager": "winget" },
         { "id": "Git.Git", "manager": "winget" },
-        { "id": "main/1password-cli", "manager": "scoop" },
         { "id": "main/rclone", "manager": "scoop" },
         { "id": "extras/glazewm", "manager": "scoop" },
         { "id": "main/dark", "manager": "scoop" },
@@ -45,13 +43,17 @@
         { "id": "extras/psfzf", "manager": "scoop" },
         { "id": "main/ripgrep", "manager": "scoop" },
         { "id": "main/rga", "manager": "scoop" },
+        { "id": "main/bat", "manager": "scoop" },
+        { "id": "main/less", "manager": "scoop" },
         { "id": "main/starship", "manager": "scoop" },
+        { "id": "main/nu", "manager": "scoop" },
 
         { "id": "main/rustup", "manager": "scoop" },
         { "id": "main/neovim", "manager": "scoop" },
         { "id": "extras/neovide", "manager": "scoop" },
         { "id": "main/vim", "manager": "scoop" },
         { "id": "extras/rider", "manager": "scoop" },
+        { "id": "main/resharper-clt", "manager": "scoop" },
         { "id": "extras/sourcetree", "manager": "scoop" },
         { "id": "Unity.UnityHub", "manager": "winget" },
         { "id": "JetBrains.dotTrace", "manager": "winget" },
@@ -72,6 +74,8 @@
 
         { "id": "Oracle.VirtualBox", "manager": "winget" },
         { "id": "main/adb", "manager": "scoop" },
+        { "id": "extras/universal-android-debloater", "manager": "scoop" },
+        { "id": "extras/resource-hacker", "manager": "scoop" },
         { "id": "extras/powertoys", "manager": "scoop" },
         { "id": "extras/etcher", "manager": "scoop" },
         { "id": "extras/ventoy", "manager": "scoop" },
