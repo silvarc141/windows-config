@@ -1,8 +1,7 @@
 # Windows dotfiles
 ## Requirements
-- activated Windows license (for successful themeing)
-- updated system (for no regressions)
-- fresh system (for maximum reproducibility)
+- set user password for successful elevated task creation
+- activate Windows license for successful themeing
 ## Installation
 ### One-line
 ```
