@@ -1,5 +1,5 @@
 {
-    "dotfiles": "https://github.com/silvarc141/dotfiles.git",
+    "dotfiles": "https://github.com/silvarc141/windows-dotfiles.git",
     "packages": [
         {
             "id": "Git.Git",
@@ -7,10 +7,6 @@
         },
         {
             "id": "main/rclone",
-            "manager": "scoop"
-        },
-        {
-            "id": "extras/glazewm",
             "manager": "scoop"
         },
         {

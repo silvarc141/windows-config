@@ -32,7 +32,7 @@ scoop bucket add extras | Out-Null
 scoop bucket add nerd-fonts | Out-Null
 scoop bucket add sysinternals | Out-Null
 scoop bucket add games | Out-Null
-#scoop bucket add DEV-tools https://github.com/anderlli0053/DEV-tools.git
+# scoop bucket add DEV-tools https://github.com/anderlli0053/DEV-tools.git
 scoop update
 
 Write-Host "Installing installation dependencies..." -ForegroundColor "Yellow"
